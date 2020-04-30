@@ -1,0 +1,57 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <st:documentation>
+        Tag for rendering configuration form to set up database.
+        <st:attribute name="endPoint" use="required">
+            url for processing the form.
+        </st:attribute>
+        <st:attribute name="databaseHost" use="required">
+            Database host value.
+        </st:attribute>
+        <st:attribute name="databasePort" use="required">
+            Database port value.
+        </st:attribute>
+        <st:attribute name="databaseName" use="required">
+            Database name value.
+        </st:attribute>
+        <st:attribute name="databaseUsername" use="required">
+            Database username value.
+        </st:attribute>
+        <st:attribute name="databasePassword" use="required">
+            Database password value.
+        </st:attribute>
+    </st:documentation>
+    <form id="config" action="${rootURL}${endPoint}" method="POST">
+        <fieldset>
+            <legend>Database settings</legend>
+            <p>
+                <label for="databaseHost">Server name</label>
+                <br/>
+                <input type="text" class="text" id="databaseHost" name="databaseHost" value="${databaseHost}"/>
+            </p>
+            <p>
+                <label for="databasePort">Server port</label>
+                <br/>
+                <input type="text" class="text" id="databasePort" name="databasePort" value="${databasePort}"/>
+            </p>
+            <p>
+                <label for="databaseName">Database name</label>
+                <br/>
+                <input type="text" class="text" id="databaseName" name="databaseName" value="${databaseName}"/>
+            </p>
+            <p>
+                <label for="databaseUsername">Username</label>
+                <br/>
+                <input type="text" class="text" id="databaseUsername" name="databaseUsername" value="${databaseUsername}"/>
+            </p>
+            <p>
+                <label for="databasePassword">Password</label>
+                <br/>
+                <input type="password" class="text" id="databasePassword" name="databasePassword" value="${databasePassword}"/>
+            </p>
+            <p>
+                <input type="submit" value="Save"/>
+            </p>
+        </fieldset>
+    </form>
+</j:jelly>

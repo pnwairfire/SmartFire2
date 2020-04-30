@@ -1,0 +1,57 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="Users" selectedTab="admin">
+        <l:breadcrumbs>
+            <l:breadcrumb name="Admin" url="/admin/"/>
+            <l:breadcrumb name="Users" urlpiece="users"/>
+        </l:breadcrumbs>
+
+        <j:if test="${it.message != null}">
+            <div class="span-16 prepend-4 append-4 last">
+                <l:message class="notice" main="${it.message}" />
+            </div>
+        </j:if>
+        
+        <div class="span-24 last">
+            <h2>Users</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th><st:nbsp/></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <j:forEach var="user" items="${it.users}">
+                        <tr>
+                            <td>${user.getUsername()}</td>
+                            <td>
+                                <form action="${rootURL}/admin/users/delete" method="POST">
+                                    <input type="hidden" name="username" value="${user.getUsername()}"/>
+                                    <input type="submit" value="Delete"/>
+                                </form>
+                            </td>
+                        </tr>
+                    </j:forEach>
+                </tbody>
+            </table>
+
+            <hr/>
+
+            <h2>Create New User</h2>
+
+            <form action="${rootURL}/admin/users/create" method="POST">
+                <p>
+                    <label for="username">Username</label><br/>
+                    <input name="username" id="username"/>
+                </p>
+                <p>
+                    <label for="password">Password</label><br/>
+                    <input name="password" id="password" type="password"/>
+                </p>
+                <input type="submit" name="btnCreate" value="Create User"/>
+            </form>
+        </div>
+    </l:layout>
+</j:jelly>

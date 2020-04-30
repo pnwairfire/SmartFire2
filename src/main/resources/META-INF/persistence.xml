@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+  <persistence-unit name="smartfire" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <class>smartfire.database.RawData</class>
+    <class>smartfire.database.Clump</class>
+    <class>smartfire.database.DataAttribute</class>
+    <class>smartfire.database.Event</class>
+    <class>smartfire.database.Fire</class>
+    <class>smartfire.database.ReconciliationStream</class>
+    <class>smartfire.database.ScheduledFetch</class>
+    <class>smartfire.database.Source</class>
+    <class>smartfire.database.EventDay</class>
+    <class>smartfire.database.DefaultWeighting</class>
+    <class>smartfire.database.ReconciliationWeighting</class>
+    <class>smartfire.database.FireAttribute</class>
+    <class>smartfire.database.SummaryDataLayer</class>
+    <class>smartfire.database.JobHistory</class>
+    <class>smartfire.database.SourceAttribute</class>
+    <class>smartfire.database.FetchAttribute</class>
+    <class>smartfire.database.EventAttribute</class>
+    <class>smartfire.database.StreamAttribute</class>
+    <class>smartfire.database.SystemConfig</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
+      <property name="hibernate.dialect" value="org.hibernatespatial.postgis.PostgisDialect"/>
+    </properties>
+  </persistence-unit>
+</persistence>

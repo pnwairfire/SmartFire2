@@ -1,0 +1,7 @@
+DROP TABLE clump_clump_layer_association;
+DROP TABLE summary_data_layer_clump_layer_association;
+DROP TABLE clump_layer_association;
+
+DROP TABLE event_day_event_layer_association;
+DROP TABLE summary_data_layer_event_layer_association;
+DROP TABLE event_layer_association;

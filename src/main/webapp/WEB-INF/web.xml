@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee          http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+    <display-name>SMARTFIRE</display-name>
+    <servlet>
+        <servlet-name>Stapler</servlet-name>
+        <servlet-class>org.kohsuke.stapler.Stapler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Stapler</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+    <listener>
+        <listener-class>smartfire.WebAppMain</listener-class>
+    </listener>
+    <filter>
+        <display-name>Persistence Filter</display-name>
+        <description>Filter to automatically begin and end transactions.</description>
+        <filter-name>PersistenceFilter</filter-name>
+        <filter-class>
+            smartfire.PersistenceFilter
+        </filter-class>
+    </filter>
+    <filter>
+        <display-name>Security Filter</display-name>
+        <description>Filter to handle user authentication.</description>
+        <filter-name>SecurityFilter</filter-name>
+        <filter-class>
+            smartfire.security.SecurityFilter
+        </filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>PersistenceFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>SecurityFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+</web-app>

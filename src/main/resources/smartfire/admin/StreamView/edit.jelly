@@ -1,0 +1,199 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="Edit Stream:  ${it.stream.getName()}" selectedTab="admin" pageCSS="admin-sources.css" pageClass="admin-sources" pageJS="reconciliation-form.js">
+        <j:useList var="names" items="Admin, Streams"/>
+        <j:set var="dummy" value="${names.add(it.stream.getName())}" />
+        <j:set var="dummy" value="${names.add('Edit')}" />
+        <j:useList var="values" items="/admin, /admin/streams"/>
+        <j:set var="dummy" value="${values.add('/admin/streams/' + it.stream.getNameSlug())}" />
+        <j:set var="dummy" value="${values.add('/admin/streams/' + it.stream.getNameSlug() + '/edit')}" />
+        <l:breadcrumbs breadcrumbNames="${names}" breadcrumbUrls="${values}"/>
+        <h2>Edit Stream: ${it.stream.getName()}</h2>
+        <form name="edit" id="edit" action="${rootURL}/admin/editStream" method="POST">
+            <input type="hidden" id="streamId" name="streamId" value="${it.stream.getId()}" />
+            <div class="span-24 last">
+                <label for="name">Stream name</label>
+                <br/>
+                <input type="text" class="title full" id="name" name="name" value="${it.stream.getName()}"/>
+            </div>
+            <div class="span-12">
+                <label for="reconciliationMethod">Reconciliation Method</label>
+                <br/>
+                <select id="reconciliationMethod" name="reconciliationMethod">
+                    <j:forEach var="reconciliationMethod" items="${it.getReconciliationMethods()}">
+                        <j:if test="${reconciliationMethod == it.stream.getReconciliationMethod()}">
+                            <option value="${reconciliationMethod}" selected="selected">${reconciliationMethod}</option>
+                        </j:if>
+                        <j:if test="${reconciliationMethod != it.stream.getReconciliationMethod()}">
+                            <option value="${reconciliationMethod}">${reconciliationMethod}</option>
+                        </j:if>
+                    </j:forEach>
+                </select>
+            </div>
+            <div class="span-12 last">
+                <label for="autoReconcile" style="margin-right: 20px;">Reconcile on Upload</label>
+                <j:if test="${it.stream.autoReconcile()}">
+                    <input type="checkbox" id="autoReconcile" name="autoReconcile" checked="checked"/>
+                </j:if>
+                <j:if test="${!it.stream.autoReconcile()}">
+                    <input type="checkbox" id="autoReconcile" name="autoReconcile"/>
+                </j:if>
+            </div>
+            <br/>
+            <div class="span-24 last">
+                <label>Source Weightings</label>
+                <br/>
+                <table>
+                    <tr>
+                        <th></th>
+                        <th>Source Name</th>
+                        <th>Detection Rate</th>
+                        <th>False Alarm Rate</th>
+                        <th>Location Weight</th>
+                        <th>Size weight</th>
+                        <th>Shape Weight</th>
+                        <th>Growth Weight</th>
+                        <th>Name Weight</th>
+                        <th>Location Uncertainty</th>
+                        <th>Start Date Uncertainty</th>
+                        <th>End Date Uncertainty</th>
+                        <td>Fire Type Weight</td>
+                    </tr>
+                    <j:forEach var="weighting" items="${it.stream.getReconciliationWeightings()}">
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="${weighting.getSource().getNameSlug()}-sourceselect" name="${weighting.getSource().getNameSlug()}-sourceselect" checked="checked"/>
+                            </td>
+                            <td>${weighting.getSource().getName()}</td>
+                            <td>
+                                <input class="small-field" type="text" id="${weighting.getSource().getNameSlug()}-detectionRate" name="${weighting.getSource().getNameSlug()}-detectionRate" value="${weighting.getDetectionRate()}"/>
+                            </td>
+                            <td>
+                                <input class="small-field" type="text" id="${weighting.getSource().getNameSlug()}-falseAlarmRate" name="${weighting.getSource().getNameSlug()}-falseAlarmRate" value="${weighting.getFalseAlarmRate()}"/>
+                            </td>
+                            <td>
+                                <input class="small-field" type="text" id="${weighting.getSource().getNameSlug()}-locationWeight" name="${weighting.getSource().getNameSlug()}-locationWeight" value="${weighting.getLocationWeight()}"/>
+                            </td>
+                            <td>
+                                <input class="small-field" type="text" id="${weighting.getSource().getNameSlug()}-sizeWeight" name="${weighting.getSource().getNameSlug()}-sizeWeight" value="${weighting.getSizeWeight()}"/>
+                            </td>
+                            <td>
+                                <input class="small-field" type="text" id="${weighting.getSource().getNameSlug()}-shapeWeight" name="${weighting.getSource().getNameSlug()}-shapeWeight" value="${weighting.getShapeWeight()}"/>
+                            </td>
+                            <td>
+                                <input class="small-field" type="text" id="${weighting.getSource().getNameSlug()}-growthWeight" name="${weighting.getSource().getNameSlug()}-growthWeight" value="${weighting.getGrowthWeight()}"/>
+                            </td>
+                            <td>
+                                <input class="small-field" type="text" id="${weighting.getSource().getNameSlug()}-nameWeight" name="${weighting.getSource().getNameSlug()}-nameWeight" value="${weighting.getNameWeight()}"/>
+                            </td>
+                            <td>
+                                <input class="small-field" type="text" id="${weighting.getSource().getNameSlug()}-locationUncertainty" name="${weighting.getSource().getNameSlug()}-locationUncertainty" value="${weighting.getLocationUncertainty()}"/>
+                            </td>
+                            <td>
+                                <input class="small-field" type="text" id="${weighting.getSource().getNameSlug()}-startDateUncertainty" name="${weighting.getSource().getNameSlug()}-startDateUncertainty" value="${weighting.getStartDateUncertainty()}"/>
+                            </td>
+                            <td>
+                                <input class="small-field" type="text" id="${weighting.getSource().getNameSlug()}-endDateUncertainty" name="${weighting.getSource().getNameSlug()}-endDateUncertainty" value="${weighting.getEndDateUncertainty()}"/>
+                            </td>
+                            <td>
+                                <input class="small-field" type="text" id="${weighting.getSource().getNameSlug()}-typeWeight" name="${weighting.getSource().getNameSlug()}-typeWeight" value="${weighting.getTypeWeight()}"/>
+                            </td>
+                        </tr>
+                    </j:forEach>
+                    <j:forEach var="source" items="${it.unusedSources}">
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="${source.getNameSlug()}-sourceselect" name="${source.getNameSlug()}-sourceselect"/>
+                            </td>
+                            <td>${source.getName()}</td>
+                            <td>
+                                <input class="small-field" type="text" id="${source.getNameSlug()}-detectionRate" name="${source.getNameSlug()}-detectionRate" value="${source.getDefaultWeighting().getDetectionRate()}"/>
+                            </td>
+                            <td>
+                                <input class="small-field" type="text" id="${source.getNameSlug()}-falseAlarmRate" name="${source.getNameSlug()}-falseAlarmRate" value="${source.getDefaultWeighting().getFalseAlarmRate()}"/>
+                            </td>
+                            <td>
+                                <input class="small-field" type="text" id="${source.getNameSlug()}-locationWeight" name="${source.getNameSlug()}-locationWeight" value="${source.getDefaultWeighting().getLocationWeight()}"/>
+                            </td>
+                            <td>
+                                <input class="small-field" type="text" id="${source.getNameSlug()}-sizeWeight" name="${source.getNameSlug()}-sizeWeight" value="${source.getDefaultWeighting().getSizeWeight()}"/>
+                            </td>
+                            <td>
+                                <input class="small-field" type="text" id="${source.getNameSlug()}-shapeWeight" name="${source.getNameSlug()}-shapeWeight" value="${source.getDefaultWeighting().getShapeWeight()}"/>
+                            </td>
+                            <td>
+                                <input class="small-field" type="text" id="${source.getNameSlug()}-growthWeight" name="${source.getNameSlug()}-growthWeight" value="${source.getDefaultWeighting().getGrowthWeight()}"/>
+                            </td>
+                            <td>
+                                <input class="small-field" type="text" id="${source.getNameSlug()}-nameWeight" name="${source.getNameSlug()}-nameWeight" value="${source.getDefaultWeighting().getNameWeight()}"/>
+                            </td>
+                            <td>
+                                <input class="small-field" type="text" id="${source.getNameSlug()}-locationUncertainty" name="${source.getNameSlug()}-locationUncertainty" value="${source.getDefaultWeighting().getLocationUncertainty()}"/>
+                            </td>
+                            <td>
+                                <input class="small-field" type="text" id="${source.getNameSlug()}-startDateUncertainty" name="${source.getNameSlug()}-startDateUncertainty" value="${source.getDefaultWeighting().getStartDateUncertainty()}"/>
+                            </td>
+                            <td>
+                                <input class="small-field" type="text" id="${source.getNameSlug()}-endDateUncertainty" name="${source.getNameSlug()}-endDateUncertainty" value="${source.getDefaultWeighting().getEndDateUncertainty()}"/>
+                            </td>
+                            <td>
+                                <input class="small-field" type="text" id="${source.getNameSlug()}-typeWeight" name="${source.getNameSlug()}-typeWeight" value="${source.getDefaultWeighting().getTypeWeight()}"/>
+                            </td>
+                        </tr>
+                    </j:forEach>
+                </table>
+            </div>
+            <div class="span-24 last">
+                <label>Summary Data Layers</label>
+                <br/>
+                <table>
+                    <tr>
+                        <th></th>
+                        <th>Data Layer Name</th>
+                        <th>Layer Reading Method</th>
+                        <th>Data Location</th>
+                    </tr>
+                    <j:forEach var="layer" items="${it.stream.getSummaryDataLayers()}">
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="${layer.getNameSlug()}-layerselect" name="${layer.getNameSlug()}-layerselect" checked="checked"/>
+                            </td>
+                            <td>${layer.getName()}</td>
+                            <td>${layer.getLayerReadingMethod()}</td>
+                            <td>${layer.getDataLocation()}</td>
+                        </tr>
+                    </j:forEach>
+                    <j:forEach var="unusedLayer" items="${it.unusedLayers}">
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="${unusedLayer.getNameSlug()}-layerselect" name="${unusedLayer.getNameSlug()}-layerselect"/>
+                            </td>
+                            <td>${unusedLayer.getName()}</td>
+                            <td>${unusedLayer.getLayerReadingMethod()}</td>
+                            <td>${unusedLayer.getDataLocation()}</td>
+                        </tr>
+                    </j:forEach>
+                </table>
+            </div>
+            <l:attributeForm methodAttributes="${it.allMethodAttributes}" entityAttributes="${it.stream.getStreamAttributes()}"/>
+            <div class="span-11">
+                <j:choose>
+                    <j:when test="${!it.getIsScheduled()}">
+                        <input type="checkbox" id="enableSchedule" name="enableSchedule" onClick="toggleCronReconciliation();" /> <label for="enableSchedule">Automatic Reconciliation</label>
+                        <br/>
+                        <textarea class="trigger-box" id="reconciliationCron" name="reconciliationCron" disabled="disabled"></textarea>
+                    </j:when>
+                    <j:otherwise>
+                        <input type="checkbox" id="enableSchedule" name="enableSchedule" onClick="toggleCronReconciliation();" checked="checked"/> <label for="enableSchedule">Automatic Reconciliation</label>
+                        <br/>
+                        <textarea class="trigger-box" id="reconciliationCron" name="reconciliationCron">${it.getSchedule()}</textarea>
+                    </j:otherwise>
+                </j:choose>
+            </div>
+            <br/>
+            <div class="span-24 last">
+                <input type="submit" value="Save"/>
+            </div>
+        </form>
+    </l:layout>
+</j:jelly>

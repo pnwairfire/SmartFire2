@@ -1,0 +1,24 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <st:documentation>
+        Tag for rendering tabs as &lt;ul> elements.
+        <st:attribute name="tabNames" use="required">
+            List of tab names
+        </st:attribute>
+        <st:attribute name="selectedTab" use="optional">
+            Currently selected tab.
+        </st:attribute>
+    </st:documentation>
+    <j:set var="tabNameArray" value="${tabNames.toString().split(' ')}"/>
+    <j:forEach var="tabName" items="${tabNameArray}">
+        <j:choose>
+            <j:when test="${tabName == selectedTab}">
+                <j:set var="selected" value="${'selected'}"/>
+            </j:when>
+            <j:otherwise>
+                <j:set var="selected" value=""/>
+            </j:otherwise>
+        </j:choose>
+        <d:invokeBody/>
+    </j:forEach>
+</j:jelly>

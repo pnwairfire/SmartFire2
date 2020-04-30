@@ -1,0 +1,1 @@
+UPDATE source SET granularity = 'ONE_DAY';

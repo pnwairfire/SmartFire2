@@ -1,0 +1,27 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="Reconciliation Streams" selectedTab="streams">
+        <l:breadcrumbs>
+            <l:breadcrumb name="Streams" url="/streams/"/>
+        </l:breadcrumbs>
+        <div class="span-24 last">
+            <h2>Reconciliation Streams</h2>
+        </div>
+        <j:if test="${!empty it.streams}">
+            <j:forEach var="stream" items="${it.streams}">
+                <div class="span-5 append-1">
+                    <a href="${stream.getNameSlug()}" class="link-button">${stream.getName()}</a>
+                </div>
+                <div class="span-17 last help-box">
+                    View fires as reconciled by the ${stream.getName()} reconciliation stream.
+                </div>
+                <div class="span-24 last">
+                    <br/>
+                </div>
+            </j:forEach>
+        </j:if>
+        <div class="span-24 last">
+            <br/>
+        </div>
+    </l:layout>
+</j:jelly>

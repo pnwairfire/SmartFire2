@@ -1,0 +1,19 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="Define New Source" selectedTab="admin" pageCSS="admin-sources.css" pageJS="scheduled-fetch-form.js, attribute-form.js" pageClass="admin-sources">
+        <j:useList var="names" items="Admin, Sources, New"/>
+        <j:useList var="values" items="/admin, /admin/sources, /admin/sources/new"/>
+        <l:breadcrumbs breadcrumbNames="${names}" breadcrumbUrls="${values}"/>
+        <div class="span-24 last">
+            <br/>
+        </div>
+        <h3>Define new data source for SMARTFIRE</h3>
+        <form name="create" id="config" action="${rootURL}/admin/saveSource" method="POST">
+            <l:sourceForm geometryTypes="${it.geometryTypes}" dataPolicies="${it.DataPolicies}" granularityTypes="${it.granularityTypes}" fetchMethods="${it.fetchMethods}" clumpMethods="${it.clumpMethods}" ingestMethods="${it.ingestMethods}" associationMethods="${it.associationMethods}" probabilityMethods="${it.probabilityMethods}" fireTypeMethods="${it.fireTypeMethods}" />
+            <l:attributeForm methodAttributes="${it.allMethodAttributes}"/>
+            <div class="span-24 last">
+                <input type="submit" value="Save"/>
+            </div>
+        </form>
+    </l:layout>
+</j:jelly>

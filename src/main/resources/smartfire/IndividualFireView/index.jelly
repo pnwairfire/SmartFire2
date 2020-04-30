@@ -1,0 +1,87 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="${it.fireName} - ${it.source.getName()}" selectedTab="data">
+        <l:breadcrumbs>
+            <l:breadcrumb name="Data" url="/data/"/>
+            <l:breadcrumb name="${it.source.getName()}" urlpiece="${it.source.getNameSlug()}"/>
+            <l:breadcrumb name="${it.fireName}" urlpiece="${'fire/' + it.getFire().getUniqueId()}"/>
+        </l:breadcrumbs>
+        
+        <div class="span-16">
+            <h2>${it.fireName}</h2>
+            <p>Detected by 
+                <a href="/data/${it.source.getNameSlug()}">${it.source.getName()}</a>
+            </p>
+            
+            <table class="span-12 box">
+                <tr>
+                    <th>Size</th>
+                    <td>${f.formatAcres(it.getFire().getArea())}</td>
+                </tr>
+                <tr>
+                    <th>First detected</th>
+                    <td>${f.formatLongDate(it.getFire().getStartDateTime())}</td>
+                </tr>
+                <tr>
+                    <th>Most recently detected</th>
+                    <td>${f.formatLongDate(it.getFire().getEndDateTime())}</td>
+                </tr>
+                <tr>
+                    <th>Detection confidence</th>
+                    <td>${f.formatPercent(it.getFire().getProbability())}</td>
+                </tr>
+                <tr>
+                    <th>Fire Type</th>
+                    <td>${it.getFire().getFireType()}</td>
+                </tr>
+            </table>
+            
+            <hr class="space"/>
+
+            <h3>Attributes</h3>
+            <p> 
+                <j:set var="attrs" value="${it.getAttributeMap()}"/>
+                <j:forEach var="key" items="${attrs.keySet()}">
+                    <b>${key}</b>: ${attrs[key]}
+                    <br/>
+                </j:forEach>
+            </p>
+            
+            <j:if test="${!it.getFire().getEvents().isEmpty()}">
+                <h3>Reconciled with Events</h3>
+                <ul>
+                    <j:forEach var="event" items="${it.getFire().getEvents()}">
+                        <li>
+                            <a href="${rootURL}/events/${event.getUniqueId()}/">${event.getDisplayName()}</a>
+                        </li>
+                    </j:forEach>
+                </ul>
+            </j:if>
+            
+        </div>
+        <div class="span-8 last">
+            <img src="shape.png" width="300" height="300" alt=""/>
+        </div>
+        <div class="span-24 last">
+            <h3>History</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Area (acres)</th>
+                        <th># Clumps</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <j:forEach var="fireDay" items="${it.getFireDays()}">
+                        <tr>
+                            <td>${fireDay.getDate()}</td>
+                            <td>${f.formatAcres(fireDay.getArea())}</td>
+                            <td>${fireDay.getNumClumps()}</td>
+                        </tr>
+                    </j:forEach>
+                </tbody>
+            </table>
+        </div>
+    </l:layout>
+</j:jelly>

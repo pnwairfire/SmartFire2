@@ -1,0 +1,65 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <st:documentation>
+        Tag for rendering the form to create a scheduled fetch.
+        <st:attribute name="fetchMethods" use="required">
+            list of fetch methods
+        </st:attribute>
+        <st:attribute name="existingFetch" use="optional">
+            Existing fetch to transpose values from.
+        </st:attribute>
+    </st:documentation>
+    <div class="span-24 last">
+        <fieldset>
+            <legend>Schedule Fetch</legend>
+            <label for="fetchName">Name</label>
+            <br/>
+            <input type="text" class="title full" id="fetchName" name="fetchName" value="${existingFetch.getName()}"/>
+            <div class="span-11">
+                <p>
+                    <label for="trigger">Trigger</label>
+                    <br/>
+                    <j:if test="${empty existingFetch.getSchedule()}">
+                        <input type="radio" onClick="disableCronFetch();" name="trigger" value="manual" checked="checked" /> Manually
+                    </j:if>
+                    <j:if test="${!empty existingFetch.getSchedule()}">
+                        <input type="radio" onClick="disableCronFetch();" name="trigger" value="manual"/> Manually
+                    </j:if>
+                    <br/>
+                    <j:if test="${!empty existingFetch.getSchedule()}">
+                        <input type="radio" onClick="enableCronFetch();" name="trigger" value="automatic" checked="checked" /> Scheduled
+                        <br/>
+                        <textarea class="trigger-box" id="fetchCron" name="fetchCron">${existingFetch.getSchedule()}</textarea>
+                    </j:if>
+                    <j:if test="${empty existingFetch.getSchedule()}">
+                        <input type="radio" onClick="enableCronFetch();" name="trigger" value="automatic" /> Scheduled
+                        <br/>
+                        <textarea class="trigger-box" id="fetchCron" name="fetchCron" disabled="disabled">${existingFetch.getSchedule()}</textarea>
+                    </j:if>
+                </p>
+            </div>
+            <div class="span-11 last">
+                <label for="fetchMethod">Fetch Method</label>
+                <br/>
+                <select id="fetchMethod" name="fetchMethod">
+                    <j:forEach var="fetchMethod" items="${fetchMethods}">
+                        <j:if test="${fetchMethod == existingFetch.getFetchMethod()}">
+                            <option value="${fetchMethod}" selected="selected">${fetchMethod}</option>
+                        </j:if>
+                        <j:if test="${fetchMethod != existingFetch.getFetchMethod()}">
+                            <option value="${fetchMethod}">${fetchMethod}</option>
+                        </j:if>
+                    </j:forEach>
+                </select>
+            </div>
+            <div class="span-22 last">
+                <label for="dateOffset">Date Offset</label>
+                <br/>
+                <input type="text" class="text" id="dateOffset" name="dateOffset" value="${existingFetch.getDateOffset()}"/>
+            </div>
+            <div class="span-22 last">
+                <input type="checkbox" name="useMaxBackwardDays" checked="checked" /> Use global maxBackwardDays
+            </div>
+        </fieldset>
+    </div>
+</j:jelly>

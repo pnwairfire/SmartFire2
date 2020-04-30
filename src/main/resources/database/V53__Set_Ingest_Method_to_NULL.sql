@@ -1,0 +1,1 @@
+UPDATE source SET ingest_method = NULL where ingest_method = 'smartfire.func.fetch.DefaultUploadIngestMethod';

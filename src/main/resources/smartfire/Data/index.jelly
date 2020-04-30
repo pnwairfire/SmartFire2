@@ -1,0 +1,36 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="Data Sources" selectedTab="data">
+        <l:breadcrumbs>
+            <l:breadcrumb name="Data" url="/data/"/>
+        </l:breadcrumbs>
+        <div class="span-24 last">
+            <h2>Data Sources</h2>
+        </div>
+        <div class="span-24 last">
+            <j:if test="${!empty it.sources}">
+                <table class="simple">
+                    <thead>
+                        <tr>
+                            <th><st:nbsp/></th>
+                            <th>Raw Data</th>
+                            <th>Clump Data</th>
+                            <th>Fire Data</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <j:forEach var="source" items="${it.sources}">
+                            <tr>
+                                <th>${source.getName()}</th>
+                                <td><a href="${source.getNameSlug()}/raw/">Raw Data</a></td>
+                                <td><a href="${source.getNameSlug()}/clump/">Clump Data</a></td>
+                                <td><a href="${source.getNameSlug()}/fires/">Fire Data</a></td>
+                            </tr>
+                        </j:forEach>
+                    </tbody>
+                </table>
+            </j:if>
+            <br/>
+        </div>
+    </l:layout>
+</j:jelly>

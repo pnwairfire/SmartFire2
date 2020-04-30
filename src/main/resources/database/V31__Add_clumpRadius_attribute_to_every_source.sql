@@ -1,0 +1,1 @@
+INSERT INTO source_attribute SELECT id, 'clumpRadius', '800', id FROM source;

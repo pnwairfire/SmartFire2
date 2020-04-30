@@ -1,0 +1,41 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="Fire Events" selectedTab="events">
+        <l:breadcrumbs>
+            <l:breadcrumb name="Events" url="/events/"/>
+        </l:breadcrumbs>
+        
+        <j:forEach var="stream" items="${it.getStreams()}">
+            <div class="span-24 last">
+                <h2>Top ${stream.getName()} Fire Events</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Location</th>
+                            <th>Area</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Confidence</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <j:forEach var="event" items="${it.getTopEvents(stream)}">
+                            <tr>
+                                <td><a href="${event.getUniqueId()}/">${event.getDisplayName()}</a></td>
+                                <td>${f.formatLocation(event)}</td>
+                                <td>${f.formatAcres(event.getArea())}</td>
+                                <td>${f.formatLongDate(event.getStartDateTime())}</td>
+                                <td>${f.formatLongDate(event.getEndDateTime())}</td>
+                                <td>${f.formatPercent(event.getProbability())}</td>
+                            </tr> 
+                        </j:forEach>        
+                    </tbody>
+                </table>
+                
+            </div>
+        </j:forEach>
+        
+    </l:layout>
+</j:jelly>

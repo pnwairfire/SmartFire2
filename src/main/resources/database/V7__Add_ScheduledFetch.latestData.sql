@@ -1,0 +1,1 @@
+ALTER TABLE scheduled_fetch ADD COLUMN latest_data date;

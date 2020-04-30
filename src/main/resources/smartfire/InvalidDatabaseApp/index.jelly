@@ -1,0 +1,11 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="Invalid Database Configuration">
+        <div class="span-16 prepend-4 append-4 last">
+            <l:message class="notice" main="The SMARTFIRE database is not properly configured." sub="Please configure the SMARTFIRE database settings."/>
+        </div>
+        <div class="span-24 last">
+            <l:configForm endPoint="/saveConfig" databaseHost="${it.config.databaseHost}" databasePort="${it.config.databasePort}" databaseName="${it.config.databaseName}" databaseUsername="${it.config.databaseUsername}" databasePassword="${it.config.databasePassword}" />
+        </div>
+    </l:layout>
+</j:jelly>

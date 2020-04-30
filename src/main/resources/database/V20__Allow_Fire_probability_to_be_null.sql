@@ -1,0 +1,2 @@
+ALTER TABLE fire
+   ALTER COLUMN probability DROP NOT NULL;

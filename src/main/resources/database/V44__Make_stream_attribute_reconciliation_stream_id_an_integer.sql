@@ -1,0 +1,1 @@
+ALTER TABLE stream_attribute ALTER COLUMN reconciliation_stream_id TYPE int4;

@@ -1,0 +1,3 @@
+ALTER TABLE fire DROP COLUMN start_date;
+ALTER TABLE fire DROP COLUMN end_date;
+ALTER TABLE fire DROP COLUMN shape;

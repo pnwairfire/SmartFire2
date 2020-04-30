@@ -1,0 +1,111 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="Stream:  ${it.stream.getName()}" selectedTab="admin">
+        <j:useList var="names" items="Admin, Streams"/>
+        <j:set var="dummy" value="${names.add(it.stream.getName())}" />
+        <j:useList var="values" items="/admin, /admin/streams"/>
+        <j:set var="dummy" value="${values.add('/admin/streams/' + it.stream.getNameSlug())}" />
+        <l:breadcrumbs breadcrumbNames="${names}" breadcrumbUrls="${values}"/>
+        <h2>Stream: ${it.stream.getName()}</h2>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Reconciliation Method</th>
+                <th>Sources</th>
+                <th></th>
+                <th>
+                    <j:if test="${it.stream.getIsScheduled()}">
+                        Schedule
+                    </j:if>
+                </th>
+            </tr>
+            <tr>
+                <td>${it.stream.getName()}</td>
+                <td>${it.stream.getReconciliationMethod()}</td>
+                <td>
+                    <j:forEach var="weighting" items="${it.stream.getReconciliationWeightings()}">
+                        ${weighting.getSource().getName()}
+                        <br/>
+                    </j:forEach>
+                </td>
+                <td>
+                    <a href="edit">Edit</a>
+                </td>
+                <td>
+                    <j:choose>
+                        <j:when test="${it.stream.getIsScheduled()}">
+                            ${it.stream.getSchedule()}
+                        </j:when>
+                        <j:otherwise>
+                            <form id="config" action="${rootURL}/admin/reconcileData" method="POST">
+                                <input type="hidden" id="streamId" name="streamId" value="${it.stream.getId()}" />
+                                Start Date (YYYYMMDD):
+                                <br/>
+                                <input type="text" id="startDate" name="startDate" />
+                                <br/>
+                                End Date (YYYYMMDD):
+                                <br/>
+                                <input type="text" id="endDate" name="endDate" />
+                                <input type="submit" value="Reconcile" class="small-button"/>
+                            </form>
+                        </j:otherwise>
+                    </j:choose>
+                </td>
+            </tr>
+        </table>
+        <j:if test="${!empty it.stream.getReconciliationWeightings()}">
+            <br/>
+            <h3>Reconciliation Weightings</h3>
+            <table>
+                <tr>
+                    <th>Source Name</th>
+                    <th>Detection Rate</th>
+                    <th>False Alarm Rate</th>
+                    <th>Location Weight</th>
+                    <th>Size weight</th>
+                    <th>Shape Weight</th>
+                    <th>Growth Weight</th>
+                    <th>Name Weight</th>
+                    <th>Location Uncertainty</th>
+                    <th>Start Date Uncertainty</th>
+                    <th>End Date Uncertainty</th>
+                    <th>Fire Type Weight</th>
+                </tr>
+                <j:forEach var="weighting" items="${it.stream.getReconciliationWeightings()}">
+                    <tr>
+                        <td>${weighting.getSource().getName()}</td>
+                        <td>${weighting.getDetectionRate()}</td>
+                        <td>${weighting.getFalseAlarmRate()}</td>
+                        <td>${weighting.getLocationWeight()}</td>
+                        <td>${weighting.getSizeWeight()}</td>
+                        <td>${weighting.getShapeWeight()}</td>
+                        <td>${weighting.getGrowthWeight()}</td>
+                        <td>${weighting.getNameWeight()}</td>
+                        <td>${weighting.getLocationUncertainty()}</td>
+                        <td>${weighting.getStartDateUncertainty()}</td>
+                        <td>${weighting.getEndDateUncertainty()}</td>
+                        <td>${weighting.getTypeWeight()}</td>
+                    </tr>
+                </j:forEach>
+            </table>
+        </j:if>
+        <j:if test="${!empty it.stream.getSummaryDataLayers()}">
+            <br/>
+            <h3>Summary Data Layers</h3>
+            <table>
+                <tr>
+                    <th>Data Layer Name</th>
+                    <th>Layer Reading Method</th>
+                    <th>Data Location</th>
+                </tr>
+                <j:forEach var="layer" items="${it.stream.getSummaryDataLayers()}">
+                    <tr>
+                        <td>${layer.getName()}</td>
+                        <td>${layer.getLayerReadingMethod()}</td>
+                        <td>${layer.getDataLocation()}</td>
+                    </tr>
+                </j:forEach>
+            </table>
+        </j:if>
+    </l:layout>
+</j:jelly>

@@ -1,0 +1,43 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="Configure Streams" selectedTab="admin">
+        <j:useList var="names" items="Admin, Streams"/>
+        <j:useList var="values" items="/admin, /admin/streams"/>
+        <l:breadcrumbs breadcrumbNames="${names}" breadcrumbUrls="${values}"/>
+        <div class="span-24 last">
+            <br/>
+        </div>
+        <div class="span-20">
+            <h2>Configure Streams</h2>
+        </div>
+        <div class="span-4 last center">
+            <a href="new">Create new stream</a>
+        </div>       
+        <j:if test="${!empty it.streams}">
+            <div class="span-24 last">
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <th>Reconciliation Method</th>
+                        <th>Sources</th>
+                        <th></th>
+                    </tr>
+                    <j:forEach var="stream" items="${it.streams}">
+                        <tr>
+                            <td>${stream.getName()}</td>
+                            <td>${stream.getReconciliationMethod()}</td>
+                            <td>
+                                <j:forEach var="weighting" items="${stream.getReconciliationWeightings()}">
+                                    ${weighting.getSource().getName()}
+                                    <br/>
+                                </j:forEach>
+                            </td>
+                            <td><a href="${stream.getNameSlug()}">View</a></td>
+                        </tr>
+                    </j:forEach>
+                </table>
+            </div>
+            <br/>
+        </j:if>
+    </l:layout>
+</j:jelly>

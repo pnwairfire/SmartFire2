@@ -1,0 +1,22 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="Edit Fetch: ${it.fetch.getName()}" selectedTab="admin" pageCSS="admin-sources.css" pageClass="admin-sources" pageJS="scheduled-fetch-form.js, attribute-form.js">
+        <j:useList var="names" items="Admin, Sources"/>
+        <j:set var="dummy" value="${names.add(it.source.getName())}" />
+        <j:set var="dummy" value="${names.add(it.fetch.getName())}" />
+        <j:useList var="values" items="/admin, /admin/sources"/>
+        <j:set var="dummy" value="${values.add('/admin/sources/' + it.source.getNameSlug())}" />
+        <j:set var="dummy" value="${values.add('/admin/sources/' + it.source.getNameSlug() + '/fetch/' + it.fetch.getId())}" />
+        <l:breadcrumbs breadcrumbNames="${names}" breadcrumbUrls="${values}"/>
+        <h2>Source: ${it.source.getName()}</h2>
+        <h3>Edit Fetch: ${it.fetch.getName()}</h3>
+        <form name="edit" id="edit" action="${rootURL}/admin/editFetch" method="POST">
+            <input type="hidden" id="fetchId" name="fetchId" value="${it.fetch.getId()}" />
+            <l:scheduledFetchForm fetchMethods="${it.fetchMethods}" existingFetch="${it.fetch}"/>
+            <l:attributeForm methodAttributes="${it.allMethodAttributes}" entityAttributes="${it.fetch.getFetchAttributes()}"/>
+            <div class="span-24 last">
+                <input type="submit" value="Save"/>
+            </div>
+        </form>
+    </l:layout>
+</j:jelly>

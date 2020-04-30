@@ -1,0 +1,23 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <st:documentation>
+        Utility tag for representing a single breadcrumb.
+        <st:attribute name="name">
+            The display name of this breadcrumb.
+        </st:attribute>
+        <st:attribute name="url">
+            The URL that this breadcrumb should link to.
+        </st:attribute>
+        <st:attribute name="urlpiece">
+            Alternatively, you can provide only the part of the URL that is
+            appended to the last URL, if the URLs in the breadcrumbs are
+            naturally arranged hierarchically.
+        </st:attribute>
+    </st:documentation>
+    <j:set var="dummy" value="${breadcrumbNames.add(name)}"/>
+    <j:if test="${empty url}">
+        <j:set var="prevUrl" value="${breadcrumbUrls.get(breadcrumbUrls.size() - 1)}"/>
+        <j:set var="url" value="${f.appendUrlPiece(prevUrl, urlpiece)}"/>
+    </j:if>
+    <j:set var="dummy" value="${breadcrumbUrls.add(url)}"/>
+</j:jelly>

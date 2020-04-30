@@ -1,0 +1,25 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <st:documentation>
+        Tag for rendering the form to upload data.
+        <st:attribute name="title" use="required">
+            name of the upload form.
+        </st:attribute>
+        <st:attribute name="description" use="required">
+            description of the type of data to upload.
+        </st:attribute>
+        <st:attribute name="fetchMethods" use="required">
+            fetch method used for processing the uploaded data.
+        </st:attribute>
+    </st:documentation>
+    <div class="span-24 last">
+        <fieldset>
+            <legend>${title}</legend>
+            ${description}
+            <br/>
+            <br/>
+            <input id="fileUpload" name="fileUpload" type="file" multiple="multiple" />
+            <br />
+        </fieldset>
+    </div>
+</j:jelly>

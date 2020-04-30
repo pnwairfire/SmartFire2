@@ -1,0 +1,86 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="${it.source.getName()} - ${it.dataType}" selectedTab="data" pageJS="data-range-retrieve.js">       
+        <l:breadcrumbs>
+            <l:breadcrumb name="Data" url="/data/"/>
+            <l:breadcrumb name="${it.source.getName()}" urlpiece="${it.source.getNameSlug()}"/>
+            <l:breadcrumb name="${it.dataType}" urlpiece="${it.urlDataType}"/>
+        </l:breadcrumbs>
+        
+        <div class="span-24 last">
+            <h2>${it.source.getName()}</h2>
+            <h2>${it.dataType}</h2>
+        </div>
+        <div class="span-5 append-1">
+            <a href="current" class="link-button">Current</a>
+        </div>
+        <div class="span-17 last help-box">
+            View the latest data
+        </div>
+        <div class="span-24 last">
+            <br/>
+        </div>
+        <div class="span-5 append-1">
+            <a href="today" class="link-button">Today</a>
+        </div>
+        <div class="span-17 last help-box">
+            View today's data.
+        </div>
+        <div class="span-24 last">
+            <br/>
+        </div>
+        <div class="span-5 append-1">
+            <a href="tomorrow" class="link-button">Tomorrow</a>
+        </div>
+        <div class="span-17 last help-box">
+            View tomorrow's data.
+        </div>
+        <div class="span-24 last">
+            <br/>
+        </div>
+        <div class="span-5 append-1">
+            <a href="yesterday" class="link-button">Yesterday</a>
+        </div>
+        <div class="span-17 last help-box">
+            View yesterday's data.
+        </div>
+        <div class="span-24 last">
+            <br/>
+        </div>
+        <form id="getDataDate" action="findDate" method="POST">
+            <div class="span-24 last">
+                <fieldset>
+                    <legend>Date Selection</legend>
+                    <div class="span-24 last">Date (YYYYMMDD)</div>
+                    <div class="span-22">
+                        <input class="text full" type="text" id="date" name="date"/>
+                    </div>
+                    <div class="span-2 last">
+                        <input type="submit" value="Get Data" class="inline-text-button small-button"/>
+                    </div>
+                </fieldset>
+            </div>
+        </form>
+        <div class="span-24 last">
+            <fieldset>
+                <legend>Date Range Selection</legend>
+                <div class="span-12">Start Date (YYYYMMDD)</div>
+                <div class="span-11 last">End Date (YYYYMMDD)</div>
+                <br/>
+                <div class="span-11">
+                    <input class="text full" type="text" id="startdate" name="startdate"/>
+                </div>
+                <div class="span-1"><br/></div>
+                <div class="span-9">
+                    <input class="text full" type="text" id="enddate" name="enddate"/>
+                </div>
+                <div class="span-2 last">
+                    <button type="button" id="range-select" name="range-select" class="inline-text-button small-button">Get Data</button>
+                </div>
+            </fieldset>
+        </div>
+        <div class="span-24 last">
+            <br/>
+        </div>
+    </l:layout>
+</j:jelly>

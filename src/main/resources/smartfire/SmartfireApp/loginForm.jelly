@@ -1,0 +1,23 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="Log in">
+        <div class="span-24 last">
+            <h2>Log In Required</h2>
+
+            <p>You must enter a username and password to access this area of the site.</p>
+
+            <form action="${rootURL}/login" method="POST">
+                <p>
+                    <label for="j_username">Username</label><br/>
+                    <input name="j_username" id="j_username"/>
+                </p>
+                <p>
+                    <label for="j_password">Password</label><br/>
+                    <input name="j_password" id="j_password" type="password"/>
+                </p>
+                <input type="submit" name="btnLogin" value="Log In"/>
+            </form>
+
+        </div>
+    </l:layout>
+</j:jelly>

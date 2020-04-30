@@ -1,0 +1,158 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="Source:  ${it.source.getName()}" selectedTab="admin" pageCSS="admin-sources.css" pageClass="admin-sources" pageJS="scheduled-fetch-form.js, attribute-form.js, new-fetch-form.js">
+        <j:useList var="names" items="Admin, Sources"/>
+        <j:set var="dummy" value="${names.add(it.source.getName())}" />
+        <j:useList var="values" items="/admin, /admin/sources"/>
+        <j:set var="dummy" value="${values.add('/admin/sources/' + it.source.getNameSlug())}" />
+        <l:breadcrumbs breadcrumbNames="${names}" breadcrumbUrls="${values}"/>
+        <h2>Source: ${it.source.getName()}</h2>
+        <table>
+            <tr>
+                <th>Data Policy</th>
+                <th>Data Granularity</th>
+                <th>Geometry Type</th>
+                <th>Methods</th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>${it.source.getNewDataPolicy()}</td>
+                <td>${it.source.getGranularity()}</td>
+                <td>${it.source.getGeometryType()}</td>
+                <td>${it.source.getClumpMethod()}
+                    <br/>${it.source.getAssocMethod()}
+                    <br/>${it.source.getProbabilityMethod()}
+                    <br/>${it.source.getFireTypeMethod()}
+                    <br/>${it.source.getIngestMethod()}
+                </td>
+                <td>
+                    <a href="edit">Edit</a>
+                </td>
+                <td>
+                    <form id="deleteSource" action="${rootURL}/admin/deleteSource" method="POST">
+                        <input type="hidden" id="sourceId" name="sourceId" value="${it.source.getId()}" />
+                        <input type="submit" value="Delete" class="small-button"/>
+                    </form>
+                </td>
+            </tr>
+        </table>
+        <br/>
+        <h3>Default Weightings</h3>
+        <table>
+            <tr>
+                <th>Detection Rate</th>
+                <th>False Alarm Rate</th>
+                <th>Location Weight</th>
+                <th>Size weight</th>
+                <th>Shape Weight</th>
+                <th>Growth Weight</th>
+                <th>Name Weight</th>
+                <th>Location Uncertainty</th>
+                <th>Start Date Uncertainty</th>
+                <th>End Date Uncertainty</th>
+                <th>Fire Type Weight</th>
+            </tr>
+            <tr>
+                <td>${it.source.getDefaultWeighting().getDetectionRate()}</td>
+                <td>${it.source.getDefaultWeighting().getFalseAlarmRate()}</td>
+                <td>${it.source.getDefaultWeighting().getLocationWeight()}</td>
+                <td>${it.source.getDefaultWeighting().getSizeWeight()}</td>
+                <td>${it.source.getDefaultWeighting().getShapeWeight()}</td>
+                <td>${it.source.getDefaultWeighting().getGrowthWeight()}</td>
+                <td>${it.source.getDefaultWeighting().getNameWeight()}</td>
+                <td>${it.source.getDefaultWeighting().getLocationUncertainty()}</td>
+                <td>${it.source.getDefaultWeighting().getStartDateUncertainty()}</td>
+                <td>${it.source.getDefaultWeighting().getEndDateUncertainty()}</td>
+                <td>${it.source.getDefaultWeighting().getTypeWeight()}</td>
+            </tr>
+        </table>
+        <br/>
+        <j:if test="${!empty it.source.getScheduledFetches()}">
+            <h3>Scheduled Fetches</h3>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Fetch Type</th>
+                    <th>Schedule</th>
+                    <th>Last Fetch</th>
+                    <th>Fetch Method</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                <j:forEach var="scheduledFetch" items="${it.source.getScheduledFetches()}">
+                    <tr>
+                        <td>${scheduledFetch.getName()}</td>
+                        <td>${scheduledFetch.getFetchType()}</td>
+                        <td>${scheduledFetch.getSchedule()}</td>
+                        <td>${f.convertDate(scheduledFetch.getLastFetch(), 'YYYY-MM-dd')}</td>
+                        <td>${scheduledFetch.getFetchMethod()}</td>
+                        <td>
+                            <j:if test="${scheduledFetch.getIsManual()}">
+                                <form id="config" action="${rootURL}/admin/fetchRawData" method="POST">
+                                    <input type="hidden" id="sourceId" name="sourceId" value="${it.source.getId()}" />
+                                    <input type="hidden" id="fetchId" name="fetchId" value="${scheduledFetch.getId()}" />
+                                    Date (YYYYMMDD):
+                                    <br/>
+                                    <input type="text" id="date" name="date" />
+                                    <input type="submit" value="Fetch" class="small-button"/>
+                                </form>
+                            </j:if>
+                        </td>
+                        <td>
+                            <a href="fetch/${scheduledFetch.getId()}">Edit</a>
+                        </td>
+                        <td>
+                            <form id="deleteFetch" action="${rootURL}/admin/deleteFetch" method="POST">
+                                <input type="hidden" id="fetchId" name="fetchId" value="${scheduledFetch.getId()}" />
+                                <input type="submit" value="Delete" class="small-button"/>
+                            </form>
+                        </td>
+                    </tr>
+                </j:forEach>
+            </table>
+            <br/>
+        </j:if>
+        <div class="span-3">
+            <a href="" id="newFetchLink">Add new fetch</a>
+        </div>
+        <div class="span-21 last">
+            <j:if test="${!empty it.source.getIngestMethod()}">
+                <a href="" id="newUploadLink">Upload Data file</a>
+            </j:if>
+        </div>
+        <br/>
+        <br/>
+        <div id="forms">
+            <div id="newFetchForm">
+                <h3>Define new Scheduled Fetch for this data source</h3>
+                <form id="config" action="${rootURL}/admin/saveScheduledFetch" method="POST">
+                    <input type="hidden" id="sourceId" name="sourceId" value="${it.source.getId()}" />
+                    <l:scheduledFetchForm fetchMethods="${it.fetchMethods}"/>
+                    <l:attributeForm methodAttributes="${it.allMethodAttributes}"/>
+                    <div class="span-24 last">
+                        <input type="submit" value="Save"/>
+                    </div>
+                </form>
+            </div>
+            <div id="newUploadForm">
+                <h3>Upload data for this data source</h3>
+                <p>Using: 
+                    <b>${it.source.getIngestMethod()}</b>
+                </p>
+                <form enctype="multipart/form-data" id="config" action="${rootURL}/admin/uploadFile" method="POST">
+                    <input type="hidden" id="sourceId" name="sourceId" value="${it.source.getId()}" />
+                    <l:uploadDataForm title="Upload Data File" description="Please select a Data file containing data for the source."  fetchMethods="${it.fetchMethods}"/>
+                    <label for="run-reconciliation" style="margin-right: 20px;">Run Reconciliation</label>
+                    <input type="checkbox" id="run-reconciliation" name="run-reconciliation" checked="checked"/>
+                    <br/>
+                    <br/>
+                    <div class="span-24 last">
+                        <input type="submit" value="Upload"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </l:layout>
+</j:jelly>

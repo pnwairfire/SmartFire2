@@ -1,0 +1,1 @@
+ALTER TABLE raw_data DROP COLUMN growth_potential;

@@ -1,0 +1,23 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="Global System Configurations" selectedTab="admin">
+        <j:useList var="names" items="Admin, Global System Configurations"/>
+        <j:useList var="values" items="/admin, /admin/global"/>
+        <l:breadcrumbs breadcrumbNames="${names}" breadcrumbUrls="${values}"/>
+        <h2>Configure Global Settings</h2>
+        <form id="config" action="${rootURL}/admin/saveGlobalConfig" method="POST">
+            <p>
+                <label for="maxNumBackwardDays">maxNumBackwardDays</label>
+                <br/>
+                <input type="text" class="maxNumBackwardDays" id="maxNumBackwardDays" name="maxNumBackwardDays" value='${it.getGlobalConfig("maxNumBackwardDays")}'/>
+                <br />
+                Maximum number of days allowed backward in time to process data. Enter blank value to disable.
+                <br />
+                <br />
+            </p>
+            <p>
+                <input type="submit" value="Save"/>
+            </p>
+        </form>
+    </l:layout>
+</j:jelly>

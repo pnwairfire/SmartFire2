@@ -1,0 +1,1 @@
+ALTER TABLE data_attribute ALTER COLUMN id TYPE int8;

@@ -1,0 +1,68 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="Credits and Acknowledgements">
+        <l:breadcrumbs>
+            <l:breadcrumb name="Credits" url="/credits"/>
+        </l:breadcrumbs>
+
+        <div class="span-24 last">
+            <h2>Credits and Acknowledgements</h2>
+
+            <div class="notice">
+                NOTE: This page is still woefully incomplete...
+            </div>
+
+            <h3>Research and Development</h3>
+            <ul>
+                <li>Narasimhan "Sim" Larkin</li>
+            </ul>
+
+            <h3>SMARTFIRE 2.0 Development</h3>
+
+            <ul>
+                <li>Sean Raffuse - Project Lead</li>
+                <li>Daniel Pryden - Software Technical Lead</li>
+                <li>Thom Dedecko - Software Engineer</li>
+                <li>Michael Haderman - Quality Assurance Engineer</li>
+                <li>plus many more...</li>
+            </ul>
+
+            <h3>SMARTFIRE 1.0 Development</h3>
+
+            <ul>
+                <li>Sean Raffuse</li>
+                <li>Daniel Pryden</li>
+                <li>more...</li>
+            </ul>
+
+            <h3>Third Party Software</h3>
+
+            <p>
+                This project could never have been successful without a huge
+                number of third-party, open-source packages.  We are
+                especially grateful to the developers and maintainers of the
+                following software packages:
+            </p>
+
+            <ul>
+                <li>The <a href="http://www.oracle.com/technetwork/java/index.html">Java 6 Platform</a></li>
+                <li><a href="http://code.google.com/p/guava-libraries/">Google Guava</a> library</li>
+                <li><a href="http://geotools.org/">GeoTools</a> open source Java GIS toolkit</li>
+                <li><a href="http://www.vividsolutions.com/jts/JTSHome.htm">JTS Topology Suite</a></li>
+                <li><a href="http://www.hibernate.org/">Hibernate</a> database persistence framework</li>
+                <li><a href="http://www.hibernatespatial.org/">Hibernate Spatial</a></li>
+                <li><a href="http://joda-time.sourceforge.net/">Joda Time</a> date and time library</li>
+                <li>Kohsuke Kawaguchi's <a href="http://stapler.java.net">Stapler</a> web framework</li>
+                <li><a href="http://www.postgresql.org/">PostgreSQL</a> database and <a href="http://postgis.refractions.net/">PostGIS</a> spatial extensions</li>
+                <li>Several libraries from the <a href="http://commons.apache.org/">Apache Commons</a> project</li>
+                <li><a href="http://junit.org/">JUnit</a> unit testing framework</li>
+                <li><a href="http://netbeans.org/">NetBeans</a> development environment</li>
+                <li><a href="http://maven.apache.org/">Apache Maven</a> build tool</li>
+                <li><a href="http://jenkins-ci.org/">Jenkins</a> continuous integration server</li>
+                <li><a href="http://www.sonarsource.org/">Sonar</a> source code analysis tool</li>
+                <li><a href="http://www.atlassian.com/software/jira/">Atlassian JIRA</a> issue tracking software</li>
+            </ul>
+
+        </div>
+    </l:layout>
+</j:jelly>

@@ -1,0 +1,1 @@
+ALTER TABLE source ADD COLUMN fire_type_method character varying(100) NOT NULL DEFAULT 'smartfire.func.firetype.DefaultFireTypeMethod';

@@ -1,0 +1,61 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="Edit Layer: ${it.layer.getName()}" selectedTab="admin">
+        <j:useList var="names" items="Admin, Summary Data Layers"/>
+        <j:set var="dummy" value="${names.add(it.layer.getName())}" />
+        <j:set var="dummy" value="${names.add('Edit')}" />
+        <j:useList var="values" items="/admin, /admin/datalayers"/>
+        <j:set var="dummy" value="${values.add('/admin/datalayers/' + it.layer.getNameSlug())}" />
+        <j:set var="dummy" value="${values.add('/admin/datalayers/' + it.layer.getNameSlug() + '/edit')}" />
+        <l:breadcrumbs breadcrumbNames="${names}" breadcrumbUrls="${values}"/>
+        <div class="span-24 last">
+            <br/>
+        </div>
+        <h3>Edit Layer: ${it.layer.getName()}</h3>
+        <form id="config" action="${rootURL}/admin/editLayer" method="POST">
+            <input type="hidden" id="layerId" name="layerId" value="${it.layer.getId()}" />
+            <div class="span-24 last">
+                <label for="name">Data layer name</label>
+                <br/>
+                <input type="text" class="title full" id="name" name="name" value="${it.layer.getName()}"/>
+            </div>
+            <div class="span-24 last">
+                <label for="layerReadingMethod">Layer Reading Method</label>
+                <br/>
+                <select id="layerReadingMethod" name="layerReadingMethod">
+                    <j:forEach var="layerReadingMethod" items="${it.getLayerReadingMethods()}">
+                        <j:if test="${layerReadingMethod == it.layer.getLayerReadingMethod()}">
+                            <option value="${layerReadingMethod}" selected="selected">${layerReadingMethod}</option>
+                        </j:if>
+                        <j:if test="${layerReadingMethod != it.layer.getLayerReadingMethod()}">
+                            <option value="${layerReadingMethod}">${layerReadingMethod}</option>
+                        </j:if>
+                    </j:forEach>
+                </select>
+            </div>
+            <div class="span-24 last">
+                <label for="dataLocation">Local Data Location</label>
+                <br/>
+                <input type="text" class="text" id="dataLocation" name="dataLocation" value="${it.layer.getDataLocation()}"/>    
+            </div>
+            <div class="span-24 last">
+                <fieldset>
+                    <legend>Valid Date Range</legend>
+                    <div class="span-12">
+                        <label for="startDate">Start Date (YYYYMMDD)</label>
+                        <br/>
+                        <input type="text" class="text" id="startDate" name="startDate" value="${it.layer.getStartDate()}"/>    
+                    </div>
+                    <div class="span-11 last">
+                        <label for="endDate">End Date (YYYYMMDD)</label>
+                        <br/>
+                        <input type="text" class="text" id="endDate" name="endDate" value="${it.layer.getEndDate()}"/>    
+                    </div>
+                </fieldset>
+            </div>
+            <div class="span-24 last">
+                <input type="submit" value="Save"/>
+            </div>
+        </form>
+    </l:layout>
+</j:jelly>

@@ -1,0 +1,11 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="Configure Database" selectedTab="admin">
+        <j:useList var="names" items="Admin, Database Configuration"/>
+        <j:useList var="values" items="/admin, /admin/configuration"/>
+        <l:breadcrumbs breadcrumbNames="${names}" breadcrumbUrls="${values}"/>
+        <h2>Configure Database</h2>
+        <p>Configure SMARTFIRE settings:</p>
+        <l:configForm endPoint="/admin/saveConfig" databaseHost="${it.config.databaseHost}" databasePort="${it.config.databasePort}" databaseName="${it.config.databaseName}" databaseUsername="${it.config.databaseUsername}" databasePassword="${it.config.databasePassword}" />
+    </l:layout>
+</j:jelly>

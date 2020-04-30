@@ -1,0 +1,42 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="${it.title} for ${it.dataDate}" selectedTab="data" pageJS="data-table.js">
+        <l:breadcrumbs breadcrumbNames="${it.breadcrumbNames}" breadcrumbUrls="${it.breadcrumbUrls}"/>
+        
+        <div class="span-14">
+            <h2>${it.title} for ${it.dataDate}</h2>
+        </div>
+        <div class="span-10 last">
+            <l:exportMethods methods="${it.exportMethods}" queryString="${it.queryString}"/>
+        </div>
+        <div class="span-24 last">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <j:if test="${it.isLinkable()}">
+                            <th>View</th>
+                        </j:if>
+                        <j:forEach var="attribute" items="${it.attributeHeadings}" indexVar="idx">
+                            <th>${attribute}</th>
+                        </j:forEach>
+                    </tr>
+                </thead>
+                <tbody>
+                    <j:forEach var="row" items="${it.exportRows}">
+                        <tr>
+                            <j:if test="${it.isLinkable()}">
+                                <td>
+                                    <a href="${rootURL}${it.getLinkUrl(row)}">View</a>
+                                </td>
+                            </j:if>
+                            <j:forEach var="value" items="${row}" indexVar="idx">
+                                <td>${value}</td>
+                            </j:forEach>
+                        </tr>
+                    </j:forEach>
+                </tbody>
+            </table>
+        </div>
+        <br/>
+    </l:layout>
+</j:jelly>

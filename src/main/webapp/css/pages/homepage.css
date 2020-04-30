@@ -1,0 +1,29 @@
+.action-links {
+    margin: 0 0 3em 0;
+    padding: 0;
+}
+
+ul.action-links li {
+    margin: 0 0 10px 0;
+    padding: 0;
+    display: block;
+    list-style-type: none;
+}
+
+ul.action-links img {
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    width: 32px;
+    height: 32px;
+    border: none;
+}
+
+ul.action-links a {
+    display: block;
+    position: relative;
+    padding: 2px 0px 2px 38px;
+    margin: 0 10px;
+    line-height: 32px;
+    height: 32px;
+}

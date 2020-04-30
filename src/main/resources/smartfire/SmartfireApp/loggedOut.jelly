@@ -1,0 +1,10 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="Logged Out" hideUserInfo="true">
+        <div class="span-24 last">
+            <h2>Logged Out</h2>
+
+            <p>You are now logged out.</p>
+        </div>
+    </l:layout>
+</j:jelly>

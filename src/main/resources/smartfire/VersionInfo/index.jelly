@@ -1,0 +1,25 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="Version">
+        <h2>Version Information</h2>
+        <dl>
+            <dt>Version</dt>
+            <dd>${it.displayVersion}</dd>
+
+            <dt>Project version (from pom.xml)</dt>
+            <dd>${it.fullVersion}</dd>
+
+            <dt>Subversion revision</dt>
+            <dd>${it.revision}</dd>
+
+            <dt>Build number</dt>
+            <dd>${it.buildNumber}</dd>
+
+            <dt>Build timestamp</dt>
+            <dd>${it.formattedBuildTimestamp}</dd>
+
+            <dt>Build computer</dt>
+            <dd>${it.buildMachine}</dd>
+        </dl>
+    </l:layout>
+</j:jelly>

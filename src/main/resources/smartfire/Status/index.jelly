@@ -1,0 +1,91 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="Status">
+        <l:breadcrumbs>
+            <l:breadcrumb name="Status" url="/status/"/>
+        </l:breadcrumbs>
+
+        <div class="span-24 last">
+            <h2>Status</h2>
+
+            <j:set var="status" value="${it.getStatus()}"/>
+            <j:choose>
+                <j:when test="${status == 'NORMAL'}">
+                    <div class="success">
+                        <b>NORMAL</b>: SMARTFIRE is running normally.
+                    </div>
+                </j:when>
+                <j:when test="${status == 'LAGGING'}">
+                    <div class="notice">
+                        <b>LAGGING</b>: Current data are not available.
+                    </div>
+                </j:when>
+                <j:when test="${status == 'PARTIAL'}">
+                    <div class="notice">
+                        <b>PARTIAL</b>: Some jobs have failed in the past 24 hours.
+                    </div>
+                </j:when>
+                <j:when test="${status == 'FAILING'}">
+                    <div class="error">
+                        <b>FAILING</b>: All jobs are failing.  Current data are not available.
+                    </div>
+                </j:when>
+                <j:otherwise>
+                    <div class="notice">
+                        <b>${status}</b>: Unknown status.
+                    </div>
+                </j:otherwise>
+            </j:choose>
+
+            <p>
+                For the time period between ${f.formatLongDate(it.getStartDate())}
+                and ${f.formatLongDate(it.getEndDate())}:
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Total Jobs</th>
+                        <th>Successful Jobs</th>
+                        <th>Failed Jobs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>${it.getStats().getTotalJobs()}</td>
+                        <td>${it.getStats().getSuccessfulJobs()}</td>
+                        <td>${it.getStats().getFailedJobs()}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>
+                Current data availablity:
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Source Name</th>
+                        <th>Earliest available data date</th>
+                        <th>Latest available data date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <j:forEach var="source" items="${it.getSources()}">
+                        <tr>
+                            <td>${source.getName()}</td>
+                            <j:if test="${source.getDataCount() != 0}">
+                                <td>${f.formatLongDate(source.getEarliestDataDate())}</td>
+                                <td>${f.formatLongDate(source.getLatestDataDate())}</td>
+                            </j:if>
+                            <j:if test="${source.getDataCount() == 0}">
+                                <td colspan="2"><div class="center">No Data</div></td>
+                            </j:if>
+                        </tr>
+                    </j:forEach>
+                </tbody>
+            </table>
+        </div>
+    </l:layout>
+</j:jelly>

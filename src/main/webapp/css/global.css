@@ -1,0 +1,164 @@
+/*
+* This file contains class that would be useful throughout the application.
+* Do not put page specifc css in here.
+*/
+
+input.full {
+    width: 99%;
+}
+
+div.right {
+    text-align: right;
+}
+
+div.center {
+    text-align: center;
+}
+
+input[type="submit"].small-button {
+    font-size: 9px;
+}
+
+input[type="text"].small-field {
+    width: 50px;
+}
+
+button[type="button"].small-button {
+    font-size: 9px;
+}
+
+/*Makes a button inline with an input text box with class "text"*/
+input.inline-text-button, button.inline-text-button {
+    margin-top: 9px;
+    margin-bottom: 9px;
+}
+
+a.link-button {
+    display: block;
+    text-align: center;
+    border: 1px solid #178CBF;
+    padding: 6px;
+    text-decoration: none;
+    margin-left: 10px;
+}
+
+a.link-button:hover, a.link-button:active {
+    color: #ffffff;
+    background-color: #178CBF;
+}
+
+div.help-box {
+    border: 1px dotted #BBBBBB;
+    padding: 6px;
+}
+
+
+/* "simple" table look and feel */
+
+table.simple {
+    border-collapse: collapse;
+    border-spacing: 0px;
+}
+
+table.simple th {
+    font-weight: bold;
+    border-bottom: 1px solid black;
+}
+
+table.simple td {
+    border-bottom: 1px solid black;
+}
+
+table.simple tbody td {
+    background: transparent;
+}
+
+table.simple tbody tr:hover td, table.simple tbody tr:hover th {
+    background: #e5ecf9;
+}
+
+table.simple thead td, table.simple thead th {
+    background: transparent;
+} 
+
+td.center, th.center {
+    text-align: center;
+}
+
+td.left, th.left {
+    text-align: left;
+}
+
+/* export methods display */
+
+ul.export-methods li {
+    margin: 0;
+    padding: 0;
+    display: inline;
+    list-style-type: none;
+}
+
+ul.export-methods img {
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    width: 32px;
+    height: 32px;
+    border: none;
+}
+
+ul.export-methods a {
+    float: left;
+    position: relative;
+    padding: 2px 0px 2px 38px;
+    margin: 0 10px;
+    line-height: 32px;
+    height: 32px;
+}
+
+/* styles related to jQuery DataTable */
+
+table.data-table thead th {
+	padding: 3px 18px 3px 10px;
+	border-bottom: 1px solid black;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+table.data-table tfoot th {
+	padding: 3px 18px 3px 10px;
+	border-top: 1px solid black;
+	font-weight: bold;
+}
+
+table.data-table tr.heading2 td {
+	border-bottom: 1px solid #aaa;
+}
+
+table.data-table td {
+	padding: 3px 10px;
+}
+
+table.data-table td.center {
+	text-align: center;
+}
+
+.sorting_asc {
+	background: #c3d9ff url('../images/sort_asc.png') no-repeat center right;
+}
+
+.sorting_desc {
+	background: #c3d9ff url('../images/sort_desc.png') no-repeat center right;
+}
+
+.sorting {
+	background: #c3d9ff url('../images/sort_both.png') no-repeat center right;
+}
+
+.sorting_asc_disabled {
+	background: #c3d9ff url('../images/sort_asc_disabled.png') no-repeat center right;
+}
+
+.sorting_desc_disabled {
+	background: #c3d9ff url('../images/sort_desc_disabled.png') no-repeat center right;
+}

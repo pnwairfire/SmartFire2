@@ -1,0 +1,19 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <st:documentation>
+        Tag for rendering page messages
+        <st:attribute name="main" use="required">
+            Primary message
+        </st:attribute>
+        <st:attribute name="sub" use="optional">
+            Sub-message
+        </st:attribute>
+        <st:attribute name="class" use="optional">
+            Class to render the div around the message: 'notice' and 'alert' are good options.
+        </st:attribute>
+    </st:documentation>
+    <div class="${class}">
+        <h3>${main}</h3>
+        ${sub}
+    </div>
+</j:jelly>

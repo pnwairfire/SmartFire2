@@ -1,0 +1,115 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <st:documentation>
+        Outer-most tag for a normal (non-AJAX) HTML rendering.
+        This file is modeled after the layout tag from the Hudson source code.
+        <st:attribute name="title" use="required">
+            Title of the HTML page. Rendered into &lt;title> tag.
+        </st:attribute>
+        <st:attribute name="selectedTab" use="optional">
+            Currently selected tab.
+        </st:attribute>
+        <st:attribute name="pageClass" use="optional">
+            Style class container for the page.
+        </st:attribute>
+        <st:attribute name="pageCSS" use="optional">
+            CSS file for the specific page.
+        </st:attribute>
+        <st:attribute name="pageJS" use="optional">
+            Javascript file for the specific page.
+        </st:attribute>
+        <st:attribute name="refreshTime" use="optional">
+            Refresh the page every x number of seconds.
+        </st:attribute>
+        <st:attribute name="hideUserInfo" use="optional">
+            Override to hide the user info if desired.
+        </st:attribute>
+    </st:documentation>
+    <!-- The path starts with a "/" character but does not end with a "/" character. -->
+    <j:set var="rootURL" value="${request.contextPath}" />
+    <j:new var="f" className="smartfire.util.Functions" /><!-- instead of JSP functions -->
+    <!--
+      load static resources from the path dedicated to a specific version.
+      This "/static/VERSION/abc/def.ghi" path is interpreted by Stapler to be
+      the same thing as "/abc/def.ghi", but this avoids the stale cache
+      problem when the user upgrades to new version. Stapler also sets a long
+      future expiration dates for such static resources.
+    -->
+    <j:set var="resURL"  value="${rootURL}${f.resourcePath}" />
+    <j:set var="imagesURL"  value="${rootURL}${f.resourcePath}/images" />
+    <st:contentType value="text/html;charset=UTF-8"/>
+    <st:doctype publicId="-//W3C//DTD XHTML 1.0 Transitional//EN" systemId="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
+    <html>
+        <head>
+            <j:if test="${(!empty refreshTime) and refreshTime gt 0}">
+                <meta http-equiv="refresh" content="${refreshTime}" />
+            </j:if>
+            <title>${f.appendIfNotNull(title, ' [SMARTFIRE]', 'SMARTFIRE')}</title>
+            <link rel="stylesheet" type="text/css" href="${resURL}/css/blueprint/screen.css" media="screen, projection"/>
+            <link rel="stylesheet" type="text/css" href="${resURL}/css/blueprint/print.css" media="print"/>
+            <!--[if lt IE 8]><link rel="stylesheet" type="text/css" href="${resURL}/css/blueprint/ie.css" media="screen, projection"><![endif]-->
+            <link rel="shortcut icon" href="${resURL}/favicon.ico"/>
+            <j:if test="${!empty pageCSS}">
+                <link rel="stylesheet" type="text/css" href="${resURL}/css/pages/${pageCSS}"/>
+            </j:if>
+            <script type="text/javascript" src="${resURL}/js/jquery-1.5.1.js"></script>
+            <script type="text/javascript" src="${resURL}/js/jquery.dataTables.min.js"></script>
+            <j:if test="${!empty pageJS}">
+                <j:useList var="file" items="${pageJS}"/>
+                <j:forEach var="filename" items="${file}">
+                    <script type="text/javascript" src="${resURL}/js/pages/${filename}"></script>
+                </j:forEach>
+            </j:if>
+            <link rel="stylesheet" type="text/css" href="${resURL}/css/global.css"/>
+            <link rel="stylesheet" type="text/css" href="${resURL}/css/general.css"/>
+        </head>
+        <body>
+            <div class="wrapper">
+                <div class="header">
+                    <h1>
+                        <a href="${rootURL}/">
+                            <span>SMARTFIRE</span>
+                        </a>
+                    </h1>
+                    <div class="header-links">
+                        <ul>
+                            <l:tabs tabNames="admin data events streams" selectedTab="${selectedTab}">
+                                <li class="${selected}">
+                                    <a href="${rootURL}/${tabName}">${tabName}</a>
+                                </li>
+                            </l:tabs>
+                        </ul>
+                    </div>
+                </div>
+                <div class="container ${pageClass}">
+                    <j:if test="${empty hideUserInfo}">
+                        <st:isUserInRole role="authenticated">
+                            <div id="user-info">
+                                <span>Logged in as </span>
+                                <b>${request.getUserPrincipal().getName()}</b>
+                                <span> (<a href="${rootURL}/logout">log out</a>)</span>
+                            </div>
+                        </st:isUserInRole>
+                    </j:if>
+                    <!-- Body -->
+                    <d:invokeBody/>
+                </div>
+                <br/>
+                <div class="push"></div>
+            </div>
+            <div class="footer">
+                <div class="logos">
+                    <a href="http://www.airfire.org">
+                        <img src="${imagesURL}/logo_airfire.gif" alt="AirFire" title="USFS AirFire Team"/>
+                    </a>
+                    <a href="http://www.sonomatech.com">
+                        <img src="${imagesURL}/logo_sti.gif" alt="Sonoma Technology, Inc." title="Sonoma Technology, Inc."/>
+                    </a>
+                </div>
+                <div class="footer-links">
+                    <a href="${rootURL}/version">Version ${f.getVersion().getDisplayVersion()}</a>
+                </div>
+            </div>
+        </body>
+    </html>
+</j:jelly>

@@ -1,0 +1,1 @@
+ALTER TABLE fire ADD COLUMN shape geometry NOT NULL;

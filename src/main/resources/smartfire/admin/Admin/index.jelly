@@ -1,0 +1,85 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="Administration" selectedTab="admin">
+        <j:useList var="names" items="Admin"/>
+        <j:useList var="values" items="/admin"/>
+        <l:breadcrumbs breadcrumbNames="${names}" breadcrumbUrls="${values}"/>
+        <j:if test="${it.message != null}">
+            <div class="span-16 prepend-4 append-4 last">
+                <l:message class="notice" main="${it.message}" />
+            </div>
+        </j:if>
+        <div class="span-24 last">
+            <h2>Administration</h2>
+        </div>
+        <div class="span-5 append-1">
+            <a href="sources" class="link-button">Configure Sources</a>
+        </div>
+        <div class="span-17 last help-box">
+            Define sources to fetch SMARTFIRE data.
+        </div>
+        <div class="span-24 last">
+            <br/>
+        </div>
+        <div class="span-5 append-1">
+            <a href="streams" class="link-button">Configure Streams</a>
+        </div>
+        <div class="span-17 last help-box">
+            Define streams to correlate SMARTFIRE data sources.
+        </div>
+        <div class="span-24 last">
+            <br/>
+        </div>
+        <div class="span-5 append-1">
+            <a href="datalayers" class="link-button">Configure Data Layers</a>
+        </div>
+        <div class="span-17 last help-box">
+            Define summary data layers for events.
+        </div>
+        <div class="span-24 last">
+            <br/>
+        </div>
+        <div class="span-5 append-1">
+            <a href="${rootURL}/jobs" class="link-button">Jobs Dashboard</a>
+        </div>
+        <div class="span-17 last help-box">
+            See information about running jobs and previously ran jobs.
+        </div>
+        <div class="span-24 last">
+            <br/>
+        </div>
+        <div class="span-5 append-1">
+            <a href="configuration" class="link-button">Configure Database</a>
+        </div>
+        <div class="span-17 last help-box">
+            Tells SMARTFIRE how to connect to the database. Requires restart of web server.
+        </div>
+        <div class="span-24 last">
+            <br/>
+        </div>
+        <div class="span-5 append-1">
+            <a href="threads" class="link-button">Configure Thread Pool</a>
+        </div>
+        <div class="span-17 last help-box">
+            Define number of threads for SMARTFIRE to run. Requires restart of web server.
+        </div>
+        <div class="span-24 last">
+            <br/>
+        </div>
+        <div class="span-5 append-1">
+            <a href="users" class="link-button">Configure Users</a>
+        </div>
+        <div class="span-17 last help-box">
+            Create or delete admin user accounts.
+        </div>
+        <div class="span-24 last">
+            <br/>
+        </div>
+        <div class="span-5 append-1">
+            <a href="global" class="link-button">Global Configurations</a>
+        </div>
+        <div class="span-17 last help-box">
+            Set global configurations.
+        </div>
+    </l:layout>
+</j:jelly>

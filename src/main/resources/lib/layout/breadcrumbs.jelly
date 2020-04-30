@@ -1,0 +1,29 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <st:documentation>
+        Tag for rendering breadcrumbs.  You can either provide lists using the
+        breadcrumbNames and breadcrumbUrls attributes, or nest additional
+        breadcrumb tags inside this tag.
+        <st:attribute name="breadcrumbNames">
+            List of breadcrumb names.
+        </st:attribute>
+        <st:attribute name="breadcrumbUrls">
+            List of breadcrumb urls.
+        </st:attribute>
+    </st:documentation>
+    <j:if test="${empty breadcrumbNames}">
+        <j:useList var="breadcrumbNames"/>
+    </j:if>
+    <j:if test="${empty breadcrumbUrls}">
+        <j:useList var="breadcrumbUrls"/>
+    </j:if>
+    <d:invokeBody/>
+    <div id="breadcrumbs">
+        <span><a href="${rootURL}/">Home</a> &#187; </span>
+        <j:forEach var="name" items="${breadcrumbNames}" indexVar="i">
+            <a href="${rootURL}${breadcrumbUrls.get(i)}">${name}</a> 
+            <j:if test="${i lt breadcrumbNames.size() - 1}"> &#187; </j:if>
+        </j:forEach>
+        <br style="clear: both"/>
+    </div>
+</j:jelly>

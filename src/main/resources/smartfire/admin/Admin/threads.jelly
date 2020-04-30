@@ -1,0 +1,19 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="Configure Thread Pool" selectedTab="admin">
+        <j:useList var="names" items="Admin, Thread Configuration"/>
+        <j:useList var="values" items="/admin, /admin/threads"/>
+        <l:breadcrumbs breadcrumbNames="${names}" breadcrumbUrls="${values}"/>
+        <h2>Configure Thread Pool</h2>
+        <form id="config" action="${rootURL}/admin/saveConfig" method="POST">
+            <p>
+                <label for="numThreads">Number of threads</label>
+                <br/>
+                <input type="text" class="text" id="numThreads" name="numThreads" value="${it.config.numThreads}"/>
+            </p>
+            <p>
+                <input type="submit" value="Save"/>
+            </p>
+        </form>
+    </l:layout>
+</j:jelly>

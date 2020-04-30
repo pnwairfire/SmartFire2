@@ -1,0 +1,22 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <st:documentation>
+        Tag for rendering a list of available export methods
+        <st:attribute name="methods" use="required">
+            a list of ExportMethod objects
+        </st:attribute>
+        <st:attribute name="queryString" use="optional">
+            a query string to include in the url
+        </st:attribute>
+    </st:documentation>
+    <ul class="export-methods">
+        <j:forEach var="method" items="${methods}">
+            <li>
+                <a href="${method.getSlugName()}${method.updateQueryString(queryString)}">
+                    <img src="${resURL}${method.getIconPath()}"/>
+                    <span>${method.getDisplayName()}</span>
+                </a>
+            </li>
+        </j:forEach>
+    </ul>
+</j:jelly>

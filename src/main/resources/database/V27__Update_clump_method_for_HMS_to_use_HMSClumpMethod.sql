@@ -1,0 +1,1 @@
+UPDATE source set clump_method = 'smartfire.func.clump.HMSClumpMethod' where lower(name) like '%hms%';

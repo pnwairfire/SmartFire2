@@ -1,0 +1,8 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="Successful Configuration">
+        <div class="span-16 prepend-4 append-4 last">
+            <l:message class="notice" main="SMARTFIRE has been successfully configured!" sub="Please restart the server."/>
+        </div>
+    </l:layout>
+</j:jelly>

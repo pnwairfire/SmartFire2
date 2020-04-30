@@ -1,0 +1,39 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <j:set var="runningJobs" value="${it.runningJobs}"/>
+
+    <h3>Currently Running</h3>
+    <j:if test="${!empty runningJobs}">
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>State</th>
+                    <th>Running Time</th>
+                    <th>Status</th>
+                    <th>Progress</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <j:forEach var="job" items="${runningJobs}">
+                    <tr>
+                        <td>${job.name}</td>
+                        <td>${job.state}</td>
+                        <td>${job.elapsedString}</td>
+                        <td>${job.progress.currentStatus}</td>
+                        <td>
+                            <div class="progress-bar-border">
+                                <div class="progress-bar" style="width: ${job.progress.percentProgress}%;"></div>
+                            </div>
+                        </td>
+                        <td>${job.progress.percentProgress}%</td>
+                    </tr>
+                </j:forEach>
+            </tbody>
+        </table>
+    </j:if>
+    <j:if test="${empty runningJobs}">
+        <p>No jobs are currently running.</p>
+    </j:if>
+</j:jelly>

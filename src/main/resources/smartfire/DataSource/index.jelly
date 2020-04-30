@@ -1,0 +1,40 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="${it.source.getName()}" selectedTab="data">
+        <l:breadcrumbs>
+            <l:breadcrumb name="Data" url="/data/"/>
+            <l:breadcrumb name="${it.source.getName()}" urlpiece="${it.source.getNameSlug()}"/>
+        </l:breadcrumbs>
+        
+        <div class="span-24 last">
+            <h2>${it.source.getName()}</h2>
+        </div>
+        <div class="span-5 append-1">
+            <a href="raw" class="link-button">Raw Data</a>
+        </div>
+        <div class="span-17 last help-box">
+            View raw data.
+        </div>
+        <div class="span-24 last">
+            <br/>
+        </div>
+        <div class="span-5 append-1">
+            <a href="clump" class="link-button">Clump Data</a>
+        </div>
+        <div class="span-17 last help-box">
+            View clump data.
+        </div>
+        <div class="span-24 last">
+            <br/>
+        </div>
+        <div class="span-5 append-1">
+            <a href="fires" class="link-button">Fire Data</a>
+        </div>
+        <div class="span-17 last help-box">
+            View fire data.
+        </div>
+        <div class="span-24 last">
+            <br/>
+        </div>
+    </l:layout>
+</j:jelly>

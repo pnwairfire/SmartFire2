@@ -1,0 +1,116 @@
+Installing SMARTFIRE 2.0 on Ubuntu 10.04
+    
+Install PostgreSQL and PostGIS:
+    sudo apt-get install postgresql
+    sudo apt-get install postgresql-8.4-postgis
+
+Set the password for the Postgres user:
+    sudo -u postgres psql postgres
+    
+    At the "postgres=#" prompt, type:
+        \password postgres
+    and enter the password for the database admin account.
+    
+    Press Ctrl-D to end the interactive session.
+
+Enable access to the database across the network:
+    sudo vi /etc/postgresql/8.4/main/pg_hba.conf
+    
+    At the bottom of the file, add the following lines (adjust as needed):
+    
+        # Allow network logins from STI's internal network
+        host    all         all         172.21.1.0 255.255.254.0  md5
+
+Create a database user account for SMARTFIRE:
+    sudo -u postgres createuser -D -A -P smartfire
+    
+    When prompted, enter a password for the new user.
+    When asked: "Shall the new role be allowed to create more new roles?",
+    select "n".
+
+Create a database named "smartfiredb" owned by the "smartfire" user:
+    sudo -u postgres createdb -O smartfire smartfiredb
+
+Install PostGIS into the new smartfiredb database:
+    sudo -u postgres createlang plpgsql smartfiredb
+    sudo -u postgres psql -d smartfiredb -f /usr/share/postgresql/8.4/contrib/postgis.sql
+    sudo -u postgres psql -d smartfiredb -f /usr/share/postgresql/8.4/contrib/spatial_ref_sys.sql
+    sudo -u postgres psql -d smartfiredb -f /usr/share/postgresql/8.4/contrib/postgis_comments.sql
+
+Restart the PostgreSQL server:
+    sudo /etc/init.d/postgresql-8.4 restart
+    
+
+Install Tomcat 6.0:
+    sudo apt-get install tomcat6
+
+    Also, I've found using openjdk on Ubuntu that rendering chart images 
+    sometimes doesn't work unless you also install the "ttf-dejavu" package, 
+    so I'd recommend installing that, even though SMARTFIRE doesn't (yet) 
+    have any chart features.
+    
+Install the Tomcat manager application:
+    sudo apt-get install tomcat6-admin
+    
+Create the Tomcat admin user:
+    sudo vi /etc/tomcat6/tomcat-users.xml
+    
+    Add the following lines inside the <tomcat-users></tomcat-users> tags:
+    
+        <role username="admin"/>
+        <role rolename="manager"/>
+        <user username="admin" password="YOUR-PASSWORD-GOES-HERE" roles="admin,manager"/>
+    
+Fix some Tomcat permissions to allow SMARTFIRE to write config and log information:
+    sudo chgrp tomcat6 /var/lib/tomcat6
+    sudo chmod g+w /var/lib/tomcat6
+    sudo chgrp tomcat6 /usr/share/tomcat6
+    sudo chmod g+w /usr/share/tomcat6
+
+Optional: If you want to run Tomcat as the primary webserver (on port 80):
+    sudo vi /etc/default/tomcat6
+    
+    Add the following line at the bottom of the file:
+        AUTHBIND=yes
+    
+    sudo vi /etc/tomcat6/server.xml
+    
+    Find the line where the following element is declared:
+    
+    <Connector port="8080" protocol="HTTP/1.1"
+               connectionTimeout="20000"
+               URIEncoding="UTF-8"
+               redirectPort="8443" />
+    
+    And change the port from "8080" to "80".
+
+Restart the Tomcat server:
+    sudo /etc/init.d/tomcat6 restart
+
+Deploy smartfire.war:
+    To deploy at the default path (http://servername/smartfire):
+        sudo cp smartfire.war /var/lib/tomcat6/webapps
+        
+    To deploy as the root application (http://servername/):
+        sudo rm -r /var/lib/tomcat6/webapps/ROOT
+        sudo cp smartfire.war /var/lib/tomcat6/webapps/ROOT.war
+        
+Configure SMARTFIRE database connection:
+    Open a web browser and navigate to the URL where you deployed the SMARTFIRE
+    application.  (This should be either http://servername:8080/smartfire or
+    just http://servername/ if you installed Tomcat on port 80 and deployed
+    smartfire.war as the root application.)
+    
+    You should get a page saying that the SMARTFIRE database connection has not
+    yet been configured.
+        Fill in the configuration:
+            Server name: localhost
+            Server port: 5432
+            Database name: smartfiredb
+            Username: smartfire
+            Password: [Enter the password you created for the "smartfire" user.]
+            
+Restart the Tomcat server:
+    sudo /etc/init.d/tomcat6 restart
+    
+Congratulations, SMARTFIRE 2.0 is now installed!

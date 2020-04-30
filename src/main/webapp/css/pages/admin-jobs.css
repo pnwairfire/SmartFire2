@@ -1,0 +1,12 @@
+.admin-jobs div.progress-bar-border {
+    width: 150px;
+    height: 10px;
+    border: 2px solid #999999;
+    padding: 1px;
+    text-align: left;
+}
+
+.admin-jobs div.progress-bar {
+    height: 10px;
+    background-color: #999999;
+}

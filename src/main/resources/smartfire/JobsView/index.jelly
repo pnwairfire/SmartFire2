@@ -1,0 +1,26 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="Jobs Dashboard" selectedTab="admin" pageCSS="admin-jobs.css" pageJS="jobs-dashboard.js" pageClass="admin-jobs">
+        <l:breadcrumbs>
+            <l:breadcrumb name="Jobs" url="/admin/jobs/"/>
+        </l:breadcrumbs>
+
+        <div class="span-24 last">
+            <h2>Jobs Dashboard</h2>
+        </div>
+        
+        <div id="runningJobs" class="span-24 last">
+            <st:include page="runningJobs.jelly"/>
+        </div>
+        
+        <div class="span-24 last">
+            <br/>
+        </div>
+
+        <div id="recentlyFinishedJobs" class="span-24 last">
+            <st:include page="recentlyFinishedJobs.jelly"/>
+        </div>
+
+        <p>For complete history, see the <a href="history">Job History</a> page.</p>
+    </l:layout>
+</j:jelly>

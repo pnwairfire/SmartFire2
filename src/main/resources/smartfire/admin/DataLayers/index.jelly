@@ -1,0 +1,40 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="Configure Summary Data Layer" selectedTab="admin">
+        <j:useList var="names" items="Admin, Summary Data Layers"/>
+        <j:useList var="values" items="/admin, /admin/datalayers"/>
+        <l:breadcrumbs breadcrumbNames="${names}" breadcrumbUrls="${values}"/>
+        <div class="span-24 last">
+            <br/>
+        </div>
+        <div class="span-20">
+            <h2>Configure Summary Data Layers</h2>
+        </div>
+        <div class="span-4 last center">
+            <a href="new">Create new data layer</a>
+        </div>       
+        <j:if test="${!empty it.dataLayers}">
+            <div class="span-24 last">
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <th>Layer Reading Method</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th></th>
+                    </tr>
+                    <j:forEach var="layer" items="${it.dataLayers}">
+                        <tr>
+                            <td>${layer.getName()}</td>
+                            <td>${layer.getLayerReadingMethod()}</td>
+                            <td>${layer.getStartDate()}</td>
+                            <td>${layer.getEndDate()}</td>
+                            <td><a href="${layer.getNameSlug()}">View</a></td>
+                        </tr>
+                    </j:forEach>
+                </table>
+            </div>
+            <br/>
+        </j:if>
+    </l:layout>
+</j:jelly>

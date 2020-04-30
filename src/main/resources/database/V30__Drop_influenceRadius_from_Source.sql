@@ -1,0 +1,1 @@
+ALTER TABLE source DROP COLUMN influence_radius;

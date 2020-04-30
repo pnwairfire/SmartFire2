@@ -1,0 +1,34 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <j:set var="recentlyFinishedJobs" value="${it.recentlyFinishedJobs}"/>
+    <j:new var="f" className="smartfire.util.Functions" />
+    
+    <j:if test="${!empty recentlyFinishedJobs}">
+        <h3>Recently Finished</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Finished</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Final Status</th>
+                    <th>Running Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <j:forEach var="job" items="${recentlyFinishedJobs}">
+                    <tr>
+                        <td>${f.convertDate(job.endDate, "MMM dd YYYY HH:mm:ss")}</td>
+                        <td>${job.name}</td>
+                        <td>${job.type}</td>
+                        <td>${job.status}</td>
+                        <td>${job.finalStatus}</td>
+                        <td>${job.runTime}</td>
+                    </tr>
+                </j:forEach>
+            </tbody>
+        </table>
+    </j:if>
+
+</j:jelly>

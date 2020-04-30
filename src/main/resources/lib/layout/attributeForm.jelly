@@ -1,0 +1,34 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <st:documentation>
+        Tag for rendering the form to create and change entity attributes
+        <st:attribute name="methodAttributes" use="required">
+            Map of method names to a map of attribute names and descriptions
+        </st:attribute>
+        <st:attribute name="entityAttributes" use="optional">
+            Entity for the methodAttributes. Used for outputting preset values.
+        </st:attribute>
+    </st:documentation>
+    <div class="span-24 last">
+        <div id="method-attributes">
+            <j:forEach var="method" items="${methodAttributes.keySet()}">
+                <div id="${method}-formset">
+                    <j:if test="${!methodAttributes.get(method).keySet().isEmpty()}">
+                        <fieldset>
+                            <legend>${method} Attributes</legend>
+                            <j:forEach var="attribute" items="${methodAttributes.get(method).keySet()}">
+                                <label for="${method}.${attribute}">${attribute}</label>
+                                <br/>
+                                <input type="text" class="text" id="${method}.${attribute}" name="${method}.${attribute}" value="${entityAttributes.get(attribute).getAttrValue()}"/>
+                                <br/>
+                                        ${methodAttributes.get(method).get(attribute)}
+                                <br/>
+                                <br/>
+                            </j:forEach>
+                        </fieldset>
+                    </j:if>
+                </div>
+            </j:forEach>
+        </div>
+    </div>
+</j:jelly>

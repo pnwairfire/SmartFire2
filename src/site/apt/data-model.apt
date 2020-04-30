@@ -1,0 +1,17 @@
+    ---
+    SMARTFIRE Data Model
+    ---
+
+    This is a diagram of the current SMARTFIRE data model:
+
+[diagrams/data_model.png] Data model
+
+    The source for this diagram is available to be
+    {{{./diagrams/data_model.dia}downloaded}} (in GNU Dia format)
+    as well.
+
+Historical
+
+    You might also be interested in this early sketch of the SMARTFIRE 2.0 data model:
+
+[diagrams/data_model_draft.png] Data model (DRAFT)

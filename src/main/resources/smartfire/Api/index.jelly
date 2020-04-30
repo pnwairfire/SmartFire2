@@ -1,0 +1,23 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="API" selectedTab="none">
+        <div class="span-24 last">
+            <h2>API</h2>
+
+            <p>
+                To allow for programmatic access to SMARTFIRE data, various
+                URLs support retrieving data as XML, JSON, or a modified JSON
+                dialect suitable for reading in Python.
+            </p>
+
+            <p>
+                To use these API URLs, append <code>/api/<i>format</i></code>
+                to the end of the URL, where <i>format</i> is one of
+                <code>xml</code>, <code>json</code>, <code>python</code>,
+                or <code>schema</code>.  The <code>schema</code> option
+                returns an XML schema corresponding to the structure of the
+                data returned by the <code>xml</code> format.
+            </p>
+        </div>
+    </l:layout>
+</j:jelly>

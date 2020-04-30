@@ -1,0 +1,127 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="Home" pageCSS="homepage.css">
+        <div class="span-7 append-1">
+            <ul class="action-links">
+                <li>
+                    <a href="${rootURL}/streams/${it.getAppSettings().getConfig().getRealtimeStreamNameSlug()}/">
+                        <img src="${resURL}/images/download.png" alt=""/>
+                        <span>Download data</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="${rootURL}/status/">
+                        <img src="${resURL}/images/status.png" alt=""/>
+                        <span>Operational status</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="${rootURL}/docs">
+                        <img src="${resURL}/images/help.png" alt=""/>
+                        <span>Documentation</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="${rootURL}/credits">
+                        <img src="${resURL}/images/people.png" alt=""/>
+                        <span>Credits and Acknowledgements</span>
+                    </a>
+                </li>
+            </ul>
+
+            <h3>Available Data Sources</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Available Dates</th>
+                    </tr>
+                </thead>
+                <j:forEach var="source" items="${it.getAllSources()}">
+                    <tr>
+                        <td>
+                            <a href="${rootURL}/data/${source.getNameSlug()}/">${source.getName()}</a>
+                        </td>
+                        <j:if test="${it.getDataCount(source) != 0}">
+                            <td>${f.formatInterval(it.getDataInterval(source))}</td>
+                        </j:if>
+                        <j:if test="${it.getDataCount(source) == 0}">
+                            <td>No Data</td>
+                        </j:if>
+                    </tr>
+                </j:forEach>
+            </table>
+
+            <h3>Reconciliation Streams</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Available Dates</th>
+                    </tr>
+                </thead>
+                <j:forEach var="stream" items="${it.getAllStreams()}">
+                    <tr>
+                        <td>
+                            <a href="${rootURL}/streams/${stream.getNameSlug()}/">${stream.getName()}</a>
+                        </td>
+                        <td>${f.formatInterval(it.getStreamInterval(stream))}</td>
+                    </tr>
+                </j:forEach>
+            </table>
+        </div>
+        <div class="span-16 last">
+            <h3>What is SMARTFIRE?</h3>
+            <p>
+                The Satellite Mapping Automated Reanalysis Tool for Fire
+                Incident Reconciliation (SMARTFIRE) is an algorithm and
+                database system that operate within a geographic information
+                system (GIS) framework. SMARTFIRE combines multiple sources
+                of fire information and reconciles them into a unified GIS
+                database. It reconciles fire data from space-borne sensors
+                and ground-based reports, thus drawing on the strengths of
+                both data types while avoiding double-counting.
+            </p>
+            <p>
+                SMARTFIRE and its outputs were designed with the
+                <a href="http://www.blueskyframework.org">BlueSky Framework</a>
+                in mind, though the Framework can be (and often is) run
+                without SMARTFIRE data. In addition, SMARTFIRE can be useful
+                for purposes beyond its original role of providing fire
+                inputs to the Framework.
+            </p>
+            
+            <h3>Current Events</h3>
+            <p>These are the top fire events currently being tracked by SMARTFIRE:</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            <st:nbsp/>
+                        </th>
+                        <th>Name and Location</th>
+                        <th>Area</th>
+                        <th>Dates</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <j:forEach var="event" items="${it.getTopEvents()}">
+                        <tr>
+                            <td>
+                                <img src="${rootURL}/events/${event.getUniqueId()}/thumbnail.png" alt=""/>
+                            </td>
+                            <td>
+                                <a href="${rootURL}/events/${event.getUniqueId()}/">${event.getDisplayName()}</a>
+                                <br/>
+                                <span>${f.formatLocation(event)}</span>
+                            </td>
+                            <td>${f.formatAcres(event.getArea())}</td>
+                            <td>${f.formatShortDate(event.getStartDateTime())} to ${f.formatShortDate(event.getEndDateTime())}</td>
+                        </tr>
+                    </j:forEach>
+                </tbody>
+            </table>
+        </div>
+    </l:layout>
+</j:jelly>

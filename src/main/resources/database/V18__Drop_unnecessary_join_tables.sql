@@ -1,0 +1,1 @@
+DROP TABLE source_scheduled_fetch, default_weighting_source, source_raw_data, source_fire, raw_data_data_attribute, fire_fire_attribute, source_reconciliation_weighting, reconciliation_stream_reconciliation_weighting, reconciliation_stream_event, event_event_day; 

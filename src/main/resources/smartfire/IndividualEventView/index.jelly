@@ -1,0 +1,123 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="${it.eventName} - ${it.stream.getName()}" selectedTab="events">
+        <l:breadcrumbs>
+            <l:breadcrumb name="Events" url="/events/"/>
+            <l:breadcrumb name="${it.getStream().getName()}" url="${'/streams/' + it.getStream().getNameSlug()}"/>
+            <l:breadcrumb name="${it.eventName}" url="${'/events/' + it.getEvent().getUniqueId()}"/>
+        </l:breadcrumbs>
+        
+        <div class="span-16">
+            <h2>${it.eventName}</h2>
+            
+            <table class="span-12 box">
+                <tr>
+                    <th>Location</th>
+                    <td>
+                        <span>${it.location}</span>
+                        <j:if test="${it.hasAdditionalLocation()}">
+                            <br/>
+                            <span>${it.additionalLocation}</span>
+                        </j:if>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Total Area</th>
+                    <td>${f.formatAcres(it.getEvent().getTotalArea())}</td>
+                </tr>
+                <tr>
+                    <th>First detected</th>
+                    <td>${f.formatLongDate(it.getEvent().getStartDateTime())}</td>
+                </tr>
+                <tr>
+                    <th>Most recently detected</th>
+                    <td>${f.formatLongDate(it.getEvent().getEndDateTime())}</td>
+                </tr>
+                <tr>
+                    <th>Detection confidence</th>
+                    <td>${f.formatPercent(it.getEvent().getProbability())}</td>
+                </tr>
+                <tr>
+                    <th>Containment</th>
+                    <td>${it.getContainment()}</td>
+                </tr>
+                <tr>
+                    <th>Fire Type</th>
+                    <td>${it.getEvent().getFireType()}</td>
+                </tr>
+            </table>
+            
+            <hr class="space"/>
+
+            <h3>Attributes</h3>
+            <p> 
+                <j:set var="attrs" value="${it.getAttributeMap()}"/>
+                <j:forEach var="key" items="${attrs.keySet()}">
+                    <b>${key}</b>: ${attrs[key]}
+                    <br/>
+                </j:forEach>
+            </p>
+        </div>
+        <div class="span-8 last">
+            <img src="shape.png" width="300" height="300" alt=""/>
+        </div>
+        <div class="span-24 last">
+            <h3>Detected As</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Source</th>
+                        <th>Area</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <j:forEach var="fire" items="${it.getFires()}">
+                        <tr>
+                            <td>
+                                <a href="${rootURL}/data/${fire.getSource().getNameSlug()}/fire/${fire.getUniqueId()}/">
+                                    ${fire.getDisplayName()}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="${rootURL}/data/${fire.getSource().getNameSlug()}/">
+                                    ${fire.getSource().getName()}
+                                </a>   
+                            </td>
+                            <td>
+                                ${f.formatAcres(fire.getArea())}
+                            </td>
+                            <td>
+                                ${f.formatLongDate(fire.getStartDateTime())}
+                            </td>
+                            <td>
+                                ${f.formatLongDate(fire.getEndDateTime())}
+                            </td>
+                        </tr>
+                    </j:forEach>
+                </tbody>
+            </table>
+        </div>
+        <div class="span-24 last">
+            <h3>History</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Area (acres)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <j:forEach var="eventDay" items="${it.getEventDays()}">
+                        <tr>
+                            <td>${eventDay.getEventDate()}</td>
+                            <td>${f.formatAcres(eventDay.getDailyArea())}</td>
+                        </tr>
+                    </j:forEach>
+                </tbody>
+            </table>
+        </div>
+    </l:layout>
+</j:jelly>

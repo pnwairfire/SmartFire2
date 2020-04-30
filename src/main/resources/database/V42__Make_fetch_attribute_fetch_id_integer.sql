@@ -1,0 +1,1 @@
+ALTER TABLE fetch_attribute ALTER COLUMN fetch_id TYPE int4;

@@ -1,0 +1,1 @@
+ALTER TABLE source_attribute ALTER COLUMN source_id TYPE int4;

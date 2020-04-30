@@ -1,0 +1,1 @@
+ALTER TABLE fire ADD CONSTRAINT unique_unique_id UNIQUE (unique_id);

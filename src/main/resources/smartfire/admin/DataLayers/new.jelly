@@ -1,0 +1,51 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="Define Summary Data Layer" selectedTab="admin" pageCSS="admin-sources.css">
+        <j:useList var="names" items="Admin, Summary Data Layers, New"/>
+        <j:useList var="values" items="/admin, /admin/datalayers, /admin/datalayers/new" />
+        <l:breadcrumbs breadcrumbNames="${names}" breadcrumbUrls="${values}"/>
+        <div class="span-24 last">
+            <br/>
+        </div>
+        <h3>Define new summary data layer for SMARTFIRE</h3>
+        <form id="config" action="${rootURL}/admin/saveLayer" method="POST">
+            <div class="span-24 last">
+                <label for="name">Data layer name</label>
+                <br/>
+                <input type="text" class="title full" id="name" name="name"/>
+            </div>
+            <div class="span-24 last">
+                <label for="layerReadingMethod">Layer Reading Method</label>
+                <br/>
+                <select id="layerReadingMethod" name="layerReadingMethod">
+                    <j:forEach var="layerReadingMethod" items="${it.getLayerReadingMethods()}">
+                        <option value="${layerReadingMethod}">${layerReadingMethod}</option>
+                    </j:forEach>
+                </select>
+            </div>
+            <div class="span-24 last">
+                <label for="dataLocation">Local Data Location</label>
+                <br/>
+                <input type="text" class="text" id="dataLocation" name="dataLocation"/>    
+            </div>
+            <div class="span-24 last">
+                <fieldset>
+                    <legend>Valid Date Range</legend>
+                    <div class="span-12">
+                        <label for="startDate">Start Date (YYYYMMDD)</label>
+                        <br/>
+                        <input type="text" class="text" id="startDate" name="startDate"/>    
+                    </div>
+                    <div class="span-11 last">
+                        <label for="endDate">End Date (YYYYMMDD)</label>
+                        <br/>
+                        <input type="text" class="text" id="endDate" name="endDate"/>    
+                    </div>
+                </fieldset>
+            </div>
+            <div class="span-24 last">
+                <input type="submit" value="Save"/>
+            </div>
+        </form>
+    </l:layout>
+</j:jelly>

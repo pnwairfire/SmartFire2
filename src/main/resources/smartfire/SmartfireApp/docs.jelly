@@ -1,0 +1,37 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="Documentation">
+        <l:breadcrumbs>
+            <l:breadcrumb name="Documentation" url="/docs"/>
+        </l:breadcrumbs>
+
+        <div class="span-24 last">
+            <h2>References and Documentation</h2>
+
+            <p>
+                SMARTFIRE uses NOAA Hazard Mapping System satellite fire detects along
+				with ground reports from systems such as ICS-209 reports to create a
+				reconciled fire information data feed. SMARTFIRE was developed by the
+				USDA Forest Service AirFire Team and Sonoma Technology, Inc. under a grant from
+				NASA. The system has been running in an experimental operational
+				configuration since late 2007.
+		    </p>
+
+            <ul>
+                <li>
+                    Raffuse <i>et al</i>,
+                    <a href="${resURL}/pdfs/Raffuse_2007.pdf">Integration of Satellite-Detected and
+                        Incident Command-Reported Wildfire Information into BlueSky
+                    </a>,
+                    June 27, 2007.
+                </li>
+                <li>
+                    <a href="${resURL}/pdfs/SMARTFIRE_Algorithm_Description_Final.pdf">
+                    	SMARTFIRE Algorithm Description
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </l:layout>
+</j:jelly>

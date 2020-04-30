@@ -1,0 +1,270 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <st:documentation>
+        Tag for rendering the form to create a source.
+        <st:attribute name="geometryTypes" use="required">
+            list of geometry types
+        </st:attribute>
+        <st:attribute name="dataPolicies" use="required">
+            list of data policies
+        </st:attribute>
+        <st:attribute name="granularityTypes" use="required">
+            Enum of granularity types
+        </st:attribute>
+        <st:attribute name="clumpMethods" use="required">
+            List of clump methods
+        </st:attribute>
+        <st:attribute name="associationMethods" use="required">
+            List of association methods
+        </st:attribute>
+        <st:attribute name="probabilityMethods" use="required">
+            List of probability methods
+        </st:attribute>
+        <st:attribute name="fireTypeMethods" use="required">
+            List of fire type methods
+        </st:attribute>
+        <st:attribute name="IngestMethods" use="required">
+            List of upload ingest methods
+        </st:attribute>
+        <st:attribute name="fetchMethods" use="optional">
+            List of fetch methods
+        </st:attribute>
+        <st:attribute name="existingSource" use="optional">
+            Existing source to transpose values from.
+        </st:attribute>
+    </st:documentation>
+    <div class="span-24 last">
+        <label for="name">Source name</label>
+        <br/>
+        <input type="text" class="title full" id="name" name="name" value="${existingSource.getName()}"/>
+    </div>
+    <div class="span-11">
+        <p>
+            <label for="geometryType">Geometry type</label>
+            <br/>
+            <select name="geometryType" id="geometryType">
+                <j:forEach var="geotype" items="${geometryTypes}">
+                    <j:if test="${geotype.name == existingSource.getGeometryType().name}">
+                        <option name="geometryType" value="${geotype.name}" selected="selected">${geotype.type}</option>
+                    </j:if>
+                    <j:if test="${geotype.name != existingSource.getGeometryType().name}">
+                        <option name="geometryType" value="${geotype.name}">${geotype.type}</option>
+                    </j:if>
+                </j:forEach>
+            </select>
+        </p>
+        <p>
+            <label for="newDataPolicy">Data Policy</label>
+            <br/>
+            <select id="newDataPolicy" name="newDataPolicy">
+                <j:forEach var="dataPolicy" items="${dataPolicies}">
+                    <j:if test="${dataPolicy == existingSource.getNewDataPolicy()}">
+                        <option value="${dataPolicy}" selected="selected">${dataPolicy}</option>
+                    </j:if>
+                    <j:if test="${dataPolicy != existingSource.getNewDataPolicy()}">
+                        <option value="${dataPolicy}">${dataPolicy}</option>
+                    </j:if>
+                </j:forEach>
+            </select>
+        </p>
+        <p>
+            <label for="granularityValue">Data Granularity</label>
+            <br/>
+            <select id="granularityValue" name="granularityValue">
+                <j:forEach var="type" items="${granularityTypes}">
+                    <j:if test="${type.name() == existingSource.getGranularity().name()}">
+                        <option value="${type.name()}" selected="selected">${type}</option>
+                    </j:if>
+                    <j:if test="${type.name() != existingSource.getGranularity().name()}">
+                        <option value="${type.name()}">${type}</option>
+                    </j:if>
+                </j:forEach>
+            </select>
+        </p>
+        <p>
+            <label for="fireNameField">Fire Name Field</label>
+            <br/>
+            <input type="text" class="text" id="fireNameField" name="fireNameField" value="${existingSource.getFireNameField()}"/>
+            <br/>
+            The name of the field in the raw data records from this Source that
+            represents the name of the fire.  If there is no such field, it
+            should be left blank.
+            <br/>
+        </p>
+    </div>
+    <div class="span-11 prepend-2 last">
+        <fieldset>
+            <legend>Algorithm Config</legend>
+            <j:if test="${empty existingSource}">
+                <p>
+                    <label for="fetchMethod">Fetch Method</label>
+                    <br/>
+                    <select id="fetchMethod" name="fetchMethod">
+                        <option value="None" selected="selected">No Fetch Method</option>
+                        <j:forEach var="fetchMethod" items="${fetchMethods}">
+                            <option value="${fetchMethod}">${fetchMethod}</option>
+                        </j:forEach>
+                    </select>
+                </p>
+            </j:if>
+            <p>
+                <label for="clumpMethod">Clump Method</label>
+                <br/>
+                <select id="clumpMethod" name="clumpMethod">
+                    <j:forEach var="clumpMethod" items="${clumpMethods}">
+                        <j:if test="${clumpMethod == existingSource.getClumpMethod()}">
+                            <option value="${clumpMethod}" selected="selected">${clumpMethod}</option>
+                        </j:if>
+                        <j:if test="${clumpMethod != existingSource.getClumpMethod()}">
+                            <option value="${clumpMethod}">${clumpMethod}</option>
+                        </j:if>
+                    </j:forEach>
+                </select>
+            </p>
+            <p>
+                <label for="assocMethod">Association Method</label>
+                <br/>
+                <select id="assocMethod" name="assocMethod">
+                    <j:forEach var="associationMethod" items="${associationMethods}">
+                        <j:if test="${associationMethod == existingSource.getAssocMethod()}">
+                            <option value="${associationMethod}" selected="selected">${associationMethod}</option>
+                        </j:if>
+                        <j:if test="${associationMethod != existingSource.getAssocMethod()}">
+                            <option value="${associationMethod}">${associationMethod}</option>
+                        </j:if>
+                    </j:forEach>
+                </select>
+            </p>
+            <p>
+                <label for="probabilityMethod">Probability of Detection Method</label>
+                <br/>
+                <select id="probabilityMethod" name="probabilityMethod">
+                    <j:forEach var="probabilityMethod" items="${probabilityMethods}">
+                        <j:if test="${probabilityMethod == existingSource.getProbabilityMethod()}">
+                            <option value="${probabilityMethod}" selected="selected">${probabilityMethod}</option>
+                        </j:if>
+                        <j:if test="${probabilityMethod != existingSource.getProbabilityMethod()}">
+                            <option value="${probabilityMethod}">${probabilityMethod}</option>
+                        </j:if>
+                    </j:forEach>
+                </select>
+            </p>
+            <p>
+                <label for="fireTypeMethod">Fire Type Determination Method</label>
+                <br/>
+                <select id="fireTypeMethod" name="fireTypeMethod">
+                    <j:forEach var="fireTypeMethod" items="${fireTypeMethods}">
+                        <j:if test="${fireTypeMethod == existingSource.getFireTypeMethod()}">
+                            <option value="${fireTypeMethod}" selected="selected">${fireTypeMethod}</option>
+                        </j:if>
+                        <j:if test="${fireTypeMethod != existingSource.getFireTypeMethod()}">
+                            <option value="${fireTypeMethod}">${fireTypeMethod}</option>
+                        </j:if>
+                    </j:forEach>
+                </select>
+            </p>
+            <p>
+                <label for="ingestMethod">Upload Ingest Method</label>
+                <br/>
+                <select id="ingestMethod" name="ingestMethod">
+                    <j:if test="${empty existingSource.getIngestMethod()}">
+                        <option value="None" selected="selected">No Upload Ingest Method</option>
+                    </j:if>
+                    <j:if test="${!empty existingSource.getIngestMethod()}">
+                        <option value="None">No Upload Ingest Method</option>
+                    </j:if>
+                    <j:forEach var="ingestMethod" items="${ingestMethods}">
+                        <j:if test="${ingestMethod == existingSource.getIngestMethod()}">
+                            <option value="${ingestMethod}" selected="selected">${ingestMethod}</option>
+                        </j:if>
+                        <j:if test="${ingestMethod != existingSource.getIngestMethod()}">
+                            <option value="${ingestMethod}">${ingestMethod}</option>
+                        </j:if>
+                    </j:forEach>
+                </select>
+            </p>
+        </fieldset>
+    </div>
+    <div class="span-24 last">
+        <fieldset>
+            <legend>Default Weighting Configuration</legend>
+            <div class="span-6">
+                <p>
+                    <label for="detectionRate">Detection Rate</label>
+                    <br/>
+                    <input type="text" id="detectionRate" name="detectionRate" value="${existingSource.getDefaultWeighting().getDetectionRate()}"/>
+                </p>
+            </div>
+            <div class="span-6">
+                <p>
+                    <label for="falseAlarmRate">False Alarm Rate</label>
+                    <br/>
+                    <input type="text" id="falseAlarmRate" name="falseAlarmRate" value="${existingSource.getDefaultWeighting().getFalseAlarmRate()}"/>
+                </p>
+            </div>
+            <div class="span-6">
+                <p>
+                    <label for="locationWeight">Location Weight</label>
+                    <br/>
+                    <input type="text" id="locationWeight" name="locationWeight" value="${existingSource.getDefaultWeighting().getLocationWeight()}"/>
+                </p>
+            </div>
+            <div class="span-5 last">
+                <p>
+                    <label for="sizeWeight">Size weight</label>
+                    <br/>
+                    <input type="text" id="sizeWeight" name="sizeWeight" value="${existingSource.getDefaultWeighting().getSizeWeight()}"/>
+                </p>
+            </div>
+            <div class="span-6">
+                <p>
+                    <label for="shapeWeight">Shape Weight</label>
+                    <br/>
+                    <input type="text" id="shapeWeight" name="shapeWeight" value="${existingSource.getDefaultWeighting().getShapeWeight()}"/>
+                </p>
+            </div>
+            <div class="span-6">
+                <p>
+                    <label for="growthWeight">Growth Weight</label>
+                    <br/>
+                    <input type="text" id="growthWeight" name="growthWeight" value="${existingSource.getDefaultWeighting().getGrowthWeight()}"/>
+                </p>
+            </div>
+            <div class="span-6">
+                <p>
+                    <label for="nameWeight">Name Weight</label>
+                    <br/>
+                    <input type="text" id="nameWeight" name="nameWeight" value="${existingSource.getDefaultWeighting().getNameWeight()}"/>
+                </p>
+            </div>
+            <div class="span-5 last">
+                <p>
+                    <label for="locationUncertainty">Location Uncertainty</label>
+                    <br/>
+                    <input type="text" id="locationUncertainty" name="locationUncertainty" value="${existingSource.getDefaultWeighting().getLocationUncertainty()}"/>
+                </p>
+            </div>
+            <div class="span-6">
+                <p>
+                    <label for="startDateUncertainty">Start Date Uncertainty</label>
+                    <br/>
+                    <input type="text" id="startDateUncertainty" name="startDateUncertainty" value="${existingSource.getDefaultWeighting().getStartDateUncertainty()}"/>
+                </p>
+            </div>
+            <div class="span-6">
+                <p>
+                    <label for="endDateUncertainty">End Date Uncertainty</label>
+                    <br/>
+                    <input type="text" id="endDateUncertainty" name="endDateUncertainty" value="${existingSource.getDefaultWeighting().getEndDateUncertainty()}"/>
+                </p>
+            </div>
+            <div class="span-5 append-6 last">
+                <p>
+                    <label for="typeWeight">Fire Type Weight</label>
+                    <br/>
+                    <input type="text" id="typeWeight" name="typeWeight" value="${existingSource.getDefaultWeighting().getTypeWeight()}"/>
+                </p>
+            </div>
+        </fieldset>
+    </div>
+</j:jelly>

@@ -1,0 +1,21 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="Edit Source:  ${it.source.getName()}" selectedTab="admin" pageCSS="admin-sources.css" pageClass="admin-sources" pageJS="scheduled-fetch-form.js, attribute-form.js">
+        <j:useList var="names" items="Admin, Sources"/>
+        <j:set var="dummy" value="${names.add(it.source.getName())}" />
+        <j:set var="dummy" value="${names.add('Edit')}" />
+        <j:useList var="values" items="/admin, /admin/sources"/>
+        <j:set var="dummy" value="${values.add('/admin/sources/' + it.source.getNameSlug())}" />
+        <j:set var="dummy" value="${values.add('/admin/sources/' + it.source.getNameSlug() + '/edit')}" />
+        <l:breadcrumbs breadcrumbNames="${names}" breadcrumbUrls="${values}"/>
+        <h2>Edit Source: ${it.source.getName()}</h2>
+        <form name="edit" id="edit" action="${rootURL}/admin/editSource" method="POST">
+            <input type="hidden" id="sourceId" name="sourceId" value="${it.source.getId()}" />
+            <l:sourceForm geometryTypes="${it.geometryTypes}" dataPolicies="${it.DataPolicies}" granularityTypes="${it.granularityTypes}" ingestMethods="${it.ingestMethods}" clumpMethods="${it.clumpMethods}" associationMethods="${it.associationMethods}" probabilityMethods="${it.probabilityMethods}" fireTypeMethods="${it.fireTypeMethods}" existingSource="${it.source}"/>
+            <l:attributeForm methodAttributes="${it.allMethodAttributes}" entityAttributes="${it.source.getSourceAttributes()}"/>
+            <div class="span-24 last">
+                <input type="submit" value="Save"/>
+            </div>
+        </form>
+    </l:layout>
+</j:jelly>

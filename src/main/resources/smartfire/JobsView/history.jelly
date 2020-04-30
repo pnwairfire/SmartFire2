@@ -1,0 +1,50 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout">
+    <l:layout title="Job History" selectedTab="admin" pageCSS="admin-jobs.css" pageClass="admin-jobs" pageJS="job-history-data-table.js">
+        <l:breadcrumbs>
+            <l:breadcrumb name="Jobs" url="/admin/jobs/"/>
+            <l:breadcrumb name="History" urlpiece="history"/>
+        </l:breadcrumbs>
+
+        <div class="span-24 last">
+            <h2>Job History</h2>
+        </div>
+        
+        <j:set var="jobHistory" value="${it.jobHistory}"/>
+        
+        <div class="span-24 last">
+            <j:if test="${!empty jobHistory}">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Finished</th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Final Status</th>
+                            <th>Running Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <j:forEach var="job" items="${jobHistory}">
+                            <tr>
+                                <td>${f.convertDate(job.endDate, "MMM dd YYYY HH:mm:ss")}</td>
+                                <td>${job.name}</td>
+                                <td>${job.type}</td>
+                                <td>${job.status}</td>
+                                <td>${job.finalStatus}</td>
+                                <td>${job.runTime}</td>
+                            </tr>
+                        </j:forEach>
+                    </tbody>
+                </table>
+            </j:if>
+            <j:if test="${empty jobHistory}">
+                <p>No job history available.</p>
+            </j:if>
+        </div>
+        <p>
+            For currently running jobs, see the <a href="index">Job Dashboard</a> page.
+        </p>
+    </l:layout>
+</j:jelly>
