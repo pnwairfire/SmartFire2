@@ -49,7 +49,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <geotools.version>9.4</geotools.version>
-        <hibernate.version>3.5.4-Final</hibernate.version>
+        <hibernate.version>5.3.20.Final</hibernate.version>
         <netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
         <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
         <buildTimestamp>${maven.build.timestamp}</buildTimestamp>
